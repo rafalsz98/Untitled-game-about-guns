@@ -7,6 +7,8 @@ TagManager:
   - Item
   - Weapon
   - Hand
+  - Map
+  - AudioSourcePlayer
   layers:
   - Default
   - TransparentFX

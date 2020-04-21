@@ -10,6 +10,23 @@ public class PlayerController : MonoBehaviour
     public float dashDistance = 2f;
     public float dashCooldown = 3f;
     public Vector3 dropOffset;
+    public float dropStrength = 2f;
+    
+    #region Ammo region
+    [HideInInspector]
+    public int currentPistolAmmo = 0;
+    [HideInInspector]
+    public int currentShotgunAmmo = 0;
+    [HideInInspector]
+    public int currentAutomaticAmmo = 0;
+    [HideInInspector]
+    public int currentSniperAmmo = 0;
+
+    public int maxPistolAmmo;
+    public int maxShotgunAmmo;
+    public int maxAutomaticAmmo;
+    public int maxSniperAmmo;
+    #endregion
 
     public Weapon fistsPrefab;
     [HideInInspector]
@@ -24,6 +41,7 @@ public class PlayerController : MonoBehaviour
     private bool isReloading = false;
     private bool hasDashed = false;
     private GameObject handObject;
+    private AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +51,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         weapon1 = fistsPrefab;
         weapon2 = fistsPrefab;
+        audioSource = GetComponentInChildren<AudioSource>();
         //weapon2.weaponPrefab.SetActive(false);
     }
 
@@ -84,6 +103,10 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine("ReloadUtil");
         }
+        if (Input.GetButtonDown("Drop"))
+        {
+            DropCurrentWeapon();
+        }
     }
 
     private void FixedUpdate() 
@@ -98,6 +121,8 @@ public class PlayerController : MonoBehaviour
 
     public void SwapWeapon()
     {
+        isReloading = false;
+        audioSource.Stop();
         weapon2.weaponPrefab.SetActive(true);
         weapon1.weaponPrefab.SetActive(false);
         Weapon tmp = weapon1;
@@ -107,8 +132,6 @@ public class PlayerController : MonoBehaviour
 
     public void PickUpWeapon(Weapon weapon)
     {
-        Debug.Log(weapon.name);
-
         // Disable its Trigger object
         weapon.triggerArea.SetActive(false);
 
@@ -130,6 +153,25 @@ public class PlayerController : MonoBehaviour
 
     public void DropCurrentWeapon()
     {
+        if (weapon1 == fistsPrefab)
+            return;
+        isReloading = false;
+        audioSource.Stop();
+        Weapon dropped = weapon1;
+        weapon1 = fistsPrefab;
+        
+        dropped.weaponPrefab.transform.SetParent(GameObject.FindWithTag("Map").transform);
+        dropped.weaponPrefab.transform.position = transform.position + dropOffset;
+        dropped.weaponPrefab.transform.rotation = Random.rotation;
+        Rigidbody _droppedRb = dropped.weaponPrefab.GetComponent<Rigidbody>();
+
+        // Gravity now can interact with weapon
+        _droppedRb.isKinematic = false;
+
+        // Enable trigger area
+        dropped.triggerArea.SetActive(true);
+        
+        _droppedRb.AddForce(transform.forward * dropStrength, ForceMode.Impulse);
 
     }
 
@@ -143,6 +185,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (tmp.currentAmmo != tmp.clipSize)
         {
+            audioSource.PlayOneShot(tmp.reloadSound);
             isReloading = true;
             // Play anim
             yield return new WaitForSeconds(tmp.reloadTime);

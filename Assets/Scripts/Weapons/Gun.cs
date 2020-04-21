@@ -10,18 +10,25 @@ public class Gun : Weapon
     public int maxAmmo;
     public float reloadTime;
     public AudioClip shootingSound;
+    public AudioClip reloadSound;
+
+    public AudioSource audioSource;
+    public ParticleSystem muzzleFlash;
+
 
     private bool _isReloading;
 
     private void Awake() 
     {
         isGun = true;
+        if (audioSource == null)
+            audioSource = GameObject.FindWithTag("AudioSourcePlayer").GetComponent<AudioSource>();
     }
 
     public void Shoot()
     {
         ammoInMag--;
-        Debug.Log("Pistol shooting");
+        audioSource.PlayOneShot(shootingSound);
         // Create particle effect
         // Raycast to hitted object
     }
