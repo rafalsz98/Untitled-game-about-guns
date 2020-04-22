@@ -13,19 +13,10 @@ public class PlayerController : MonoBehaviour
     public float dropStrength = 2f;
     
     #region Ammo region
-    [HideInInspector]
-    public int currentPistolAmmo = 0;
-    [HideInInspector]
-    public int currentShotgunAmmo = 0;
-    [HideInInspector]
-    public int currentAutomaticAmmo = 0;
-    [HideInInspector]
-    public int currentSniperAmmo = 0;
-
-    public int maxPistolAmmo;
-    public int maxShotgunAmmo;
-    public int maxAutomaticAmmo;
-    public int maxSniperAmmo;
+    private const int ammoTypesCount = 4;
+    public int[] currentAmmo = new int[ammoTypesCount];
+    [Tooltip("0 - Pistol, 1 - Shotgun, 2 - Automatic, 3 - Sniper")]
+    public int[] maxAmmo = new int[ammoTypesCount];
     #endregion
 
     public Weapon fistsPrefab;
@@ -33,6 +24,8 @@ public class PlayerController : MonoBehaviour
     public Weapon weapon1;
     [HideInInspector]
     public Weapon weapon2;
+
+
 
     private Rigidbody rb;
     private Vector3 input = Vector3.zero; 
@@ -177,26 +170,26 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator ReloadUtil()
     {
-        Gun tmp = (Gun)weapon1;
-        if (tmp.currentAmmo <= 0)
+        Gun gun = (Gun)weapon1;
+        if (currentAmmo[gun.ammoType] <= 0)
         {
             // Play no ammo sound
             Debug.Log("No ammo");
         }
-        else if (tmp.currentAmmo != tmp.clipSize)
+        else if (currentAmmo[gun.ammoType] != gun.clipSize)
         {
-            audioSource.PlayOneShot(tmp.reloadSound);
+            audioSource.PlayOneShot(gun.reloadSound);
             isReloading = true;
             // Play anim
-            yield return new WaitForSeconds(tmp.reloadTime);
+            yield return new WaitForSeconds(gun.reloadTime);
 
             // If nobody swapped weapons
             if (isReloading)
             {
-                tmp.Reload();
+                gun.Reload(ref currentAmmo[gun.ammoType]);
+                Debug.Log("reloaded");
             }
             isReloading = false;
-            Debug.Log("reloaded");
         }
         yield return null;
     }
