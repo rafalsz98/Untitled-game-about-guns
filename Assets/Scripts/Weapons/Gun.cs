@@ -7,7 +7,6 @@ public class Gun : Weapon
 {
     public int clipSize;
     public int ammoInMag = 0;
-    public int maxAmmo;
     [Tooltip("0 - Pistol, 1 - Shotgun, 2 - Automatic, 3 - Sniper"), Range(0, 3)]
     public int ammoType;
     public float reloadTime;
