@@ -31,7 +31,7 @@ public class Gun : Weapon
         ammoInMag--;
         audioSource.PlayOneShot(shootingSound);
         muzzleFlash.Play();
-        // Create particle effect
+
         // Raycast to hitted object
     }
 

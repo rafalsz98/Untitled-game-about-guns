@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
@@ -11,9 +12,10 @@ public class PlayerController : MonoBehaviour
     public float dashCooldown = 3f;
     public Vector3 dropOffset;
     public float dropStrength = 2f;
+    public AmmoBar ammoBar;
     
     #region Ammo region
-    private const int ammoTypesCount = 4;
+    public static int ammoTypesCount = 4;
     public int[] currentAmmo = new int[ammoTypesCount];
     [Tooltip("0 - Pistol, 1 - Shotgun, 2 - Automatic, 3 - Sniper")]
     public int[] maxAmmo = new int[ammoTypesCount];
@@ -27,6 +29,8 @@ public class PlayerController : MonoBehaviour
 
 
 
+    [HideInInspector]
+    public AudioSource audioSource;
     private Rigidbody rb;
     private Vector3 input = Vector3.zero; 
     private Camera cam;
@@ -34,7 +38,6 @@ public class PlayerController : MonoBehaviour
     private bool isReloading = false;
     private bool hasDashed = false;
     private GameObject handObject;
-    private AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
@@ -56,14 +59,14 @@ public class PlayerController : MonoBehaviour
 
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit raycastHit;
-        if (Physics.Raycast(ray, out raycastHit, 100, layerMask))
+        if (Physics.Raycast(ray, out raycastHit, 100))
         {
             LookAt(raycastHit.point);
         }
         if (!hasDashed && Input.GetButtonDown("Dash") && input != Vector3.zero)
         {
             hasDashed = true;
-            rb.AddForce(input * dashDistance, ForceMode.Impulse);
+            rb.AddForce(input * dashDistance, ForceMode.VelocityChange);
             StartCoroutine("DashCooldown");
         }
         if (!isReloading && Input.GetButtonDown("Fire1") && Time.time >= nextTimeToFire)
@@ -77,6 +80,7 @@ public class PlayerController : MonoBehaviour
                     return;
                 }
                 ((Gun)weapon1).Shoot();
+                ChangeAmmoUI();
                 if (((Gun)weapon1).ammoInMag <= 0)
                 {
                     StartCoroutine("ReloadUtil");
@@ -121,6 +125,8 @@ public class PlayerController : MonoBehaviour
         Weapon tmp = weapon1;
         weapon1 = weapon2;
         weapon2 = tmp;
+
+        ChangeAmmoUI();
     }
 
     public void PickUpWeapon(Weapon weapon)
@@ -141,7 +147,8 @@ public class PlayerController : MonoBehaviour
         );
 
         weapon1 = weapon;
-        // Remove current holded weapon
+
+        ChangeAmmoUI();
     }
 
     public void DropCurrentWeapon()
@@ -152,6 +159,8 @@ public class PlayerController : MonoBehaviour
         audioSource.Stop();
         Weapon dropped = weapon1;
         weapon1 = fistsPrefab;
+
+        ChangeAmmoUI();
         
         dropped.weaponPrefab.transform.SetParent(GameObject.FindWithTag("Map").transform);
         dropped.weaponPrefab.transform.position = transform.position + dropOffset;
@@ -168,15 +177,29 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    public void ChangeAmmoUI()
+    {
+        if (weapon1.isGun)
+        {
+            Gun gun = (Gun)weapon1;
+            ammoBar.ChangeAmmo(gun.ammoInMag, currentAmmo[gun.ammoType]);
+        }
+        else
+        {
+            ammoBar.ChangeDurability(((Melee)weapon1).durability);
+        }
+    }
+
     IEnumerator ReloadUtil()
     {
         Gun gun = (Gun)weapon1;
-        if (currentAmmo[gun.ammoType] <= 0)
+        if (gun.ammoInMag == gun.clipSize)
+            yield return null;
+        else if (currentAmmo[gun.ammoType] <= 0)
         {
-            // Play no ammo sound
             Debug.Log("No ammo");
         }
-        else if (currentAmmo[gun.ammoType] != gun.clipSize)
+        else
         {
             audioSource.PlayOneShot(gun.reloadSound);
             isReloading = true;
@@ -187,6 +210,7 @@ public class PlayerController : MonoBehaviour
             if (isReloading)
             {
                 gun.Reload(ref currentAmmo[gun.ammoType]);
+                ammoBar.ChangeAmmo(gun.ammoInMag, currentAmmo[gun.ammoType]);
                 Debug.Log("reloaded");
             }
             isReloading = false;

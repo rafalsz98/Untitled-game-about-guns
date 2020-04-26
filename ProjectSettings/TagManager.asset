@@ -9,6 +9,7 @@ TagManager:
   - Hand
   - Map
   - AudioSourcePlayer
+  - Ammo
   layers:
   - Default
   - TransparentFX
