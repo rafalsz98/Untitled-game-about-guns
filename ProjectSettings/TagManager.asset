@@ -10,6 +10,7 @@ TagManager:
   - Map
   - AudioSourcePlayer
   - Ammo
+  - BuildingTrigger
   layers:
   - Default
   - TransparentFX

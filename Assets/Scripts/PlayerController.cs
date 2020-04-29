@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
 
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit raycastHit;
-        if (Physics.Raycast(ray, out raycastHit, 100))
+        if (Physics.Raycast(ray, out raycastHit, 100, layerMask))
         {
             LookAt(raycastHit.point);
         }
@@ -187,6 +187,24 @@ public class PlayerController : MonoBehaviour
         else
         {
             ammoBar.ChangeDurability(((Melee)weapon1).durability);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("BuildingTrigger"))
+        {
+            BuildingTriggerScript script = other.gameObject.GetComponent<BuildingTriggerScript>();
+            script.PlayerEnter();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("BuildingTrigger"))
+        {
+            BuildingTriggerScript script = other.gameObject.GetComponent<BuildingTriggerScript>();
+            script.PlayerExit();
         }
     }
 
