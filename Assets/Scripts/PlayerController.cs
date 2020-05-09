@@ -13,6 +13,9 @@ public class PlayerController : MonoBehaviour
     public Vector3 dropOffset;
     public float dropStrength = 2f;
     public AmmoBar ammoBar;
+    public HealthBar healthBar;
+    public int maxHealth = 100;
+    public float animationSmoothTime = .2f;
     
     #region Ammo region
     public static int ammoTypesCount = 4;
@@ -32,12 +35,14 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]
     public AudioSource audioSource;
     private Rigidbody rb;
-    private Vector3 input = Vector3.zero; 
+    private Vector3 input = Vector3.zero;
     private Camera cam;
     private float nextTimeToFire = 0f;
     private bool isReloading = false;
     private bool hasDashed = false;
     private GameObject handObject;
+    private int currentHealth;
+    private Animator animator;
 
     // Start is called before the first frame update
     void Start()
@@ -48,14 +53,30 @@ public class PlayerController : MonoBehaviour
         weapon1 = fistsPrefab;
         weapon2 = fistsPrefab;
         audioSource = GetComponentInChildren<AudioSource>();
-        //weapon2.weaponPrefab.SetActive(false);
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
+        healthBar.SetHealth(maxHealth);
+        animator = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        input.x = Input.GetAxis("Vertical");
-        input.z = -Input.GetAxis("Horizontal");
+        float x = Input.GetAxis("Vertical");
+        float z = Input.GetAxis("Horizontal");
+        input = new Vector3(z, 0, x);
+        if (input != Vector3.zero)
+        {
+            animator.SetFloat("ActionType", 1, animationSmoothTime, Time.deltaTime);
+            animator.SetFloat("MovX", input.x, animationSmoothTime, Time.deltaTime);
+            animator.SetFloat("MovY", input.y, animationSmoothTime, Time.deltaTime);
+        }
+        else if (input == Vector3.zero && animator.GetFloat("ActionType") != 0)
+        {
+            animator.SetFloat("ActionType", 0, animationSmoothTime, Time.deltaTime);
+            animator.SetFloat("MovX", 0);
+            animator.SetFloat("MovY", 0);
+        }
 
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit raycastHit;
@@ -74,18 +95,8 @@ public class PlayerController : MonoBehaviour
             nextTimeToFire = Time.time + weapon1.rateOfFire;
             if (weapon1.isGun)
             {
-                if (((Gun)weapon1).ammoInMag <= 0)
-                {
-                    StartCoroutine("ReloadUtil");
-                    return;
-                }
-                ((Gun)weapon1).Shoot();
-                ChangeAmmoUI();
-                if (((Gun)weapon1).ammoInMag <= 0)
-                {
-                    StartCoroutine("ReloadUtil");
-                    return;
-                }
+                ((Gun)weapon1).Shoot(this);
+                UpdateAmmoUI();
             }
             else
             {
@@ -103,6 +114,10 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Drop"))
         {
             DropCurrentWeapon();
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            TakeDamage(10);
         }
     }
 
@@ -126,7 +141,7 @@ public class PlayerController : MonoBehaviour
         weapon1 = weapon2;
         weapon2 = tmp;
 
-        ChangeAmmoUI();
+        UpdateAmmoUI();
     }
 
     public void PickUpWeapon(Weapon weapon)
@@ -137,6 +152,9 @@ public class PlayerController : MonoBehaviour
         // Gravity can't affect it in hand
         weapon.weaponPrefab.GetComponent<Rigidbody>().isKinematic = true;
 
+        // Disable collision
+        weapon.weaponPrefab.GetComponent<BoxCollider>().enabled = false;
+
         // Setting new location
         weapon.weaponPrefab.transform.SetParent(handObject.transform);
         weapon.weaponPrefab.transform.localPosition = weapon.handOffset;
@@ -145,10 +163,10 @@ public class PlayerController : MonoBehaviour
             weapon.handRotation.y,
             weapon.handRotation.z
         );
-
+        
         weapon1 = weapon;
 
-        ChangeAmmoUI();
+        UpdateAmmoUI();
     }
 
     public void DropCurrentWeapon()
@@ -160,12 +178,15 @@ public class PlayerController : MonoBehaviour
         Weapon dropped = weapon1;
         weapon1 = fistsPrefab;
 
-        ChangeAmmoUI();
+        UpdateAmmoUI();
         
         dropped.weaponPrefab.transform.SetParent(GameObject.FindWithTag("Map").transform);
         dropped.weaponPrefab.transform.position = transform.position + dropOffset;
         dropped.weaponPrefab.transform.rotation = Random.rotation;
         Rigidbody _droppedRb = dropped.weaponPrefab.GetComponent<Rigidbody>();
+
+        // Enable collision
+        dropped.weaponPrefab.GetComponent<BoxCollider>().enabled = true;
 
         // Gravity now can interact with weapon
         _droppedRb.isKinematic = false;
@@ -177,7 +198,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    public void ChangeAmmoUI()
+    public void UpdateAmmoUI()
     {
         if (weapon1.isGun)
         {
@@ -190,11 +211,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        if (currentHealth > 0)
+            healthBar.SetHealth(currentHealth);
+        else
+            Debug.Log("Death");
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("BuildingTrigger"))
         {
-            BuildingTriggerScript script = other.gameObject.GetComponent<BuildingTriggerScript>();
+            BuildingTriggerScript script;
+            script = other.gameObject.GetComponentInParent<BuildingTriggerScript>();
+            if (script == null)
+                script = other.gameObject.GetComponent<BuildingTriggerScript>();
             script.PlayerEnter();
         }
     }
@@ -203,21 +236,22 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("BuildingTrigger"))
         {
-            BuildingTriggerScript script = other.gameObject.GetComponent<BuildingTriggerScript>();
+            BuildingTriggerScript script;
+            script = other.gameObject.GetComponentInParent<BuildingTriggerScript>();
+            if (script == null)
+                script = other.gameObject.GetComponent<BuildingTriggerScript>();
             script.PlayerExit();
         }
     }
 
-    IEnumerator ReloadUtil()
+    public IEnumerator ReloadUtil()
     {
         Gun gun = (Gun)weapon1;
-        if (gun.ammoInMag == gun.clipSize)
-            yield return null;
-        else if (currentAmmo[gun.ammoType] <= 0)
+        if (currentAmmo[gun.ammoType] <= 0)
         {
             Debug.Log("No ammo");
         }
-        else
+        else if (gun.ammoInMag != gun.clipSize)
         {
             audioSource.PlayOneShot(gun.reloadSound);
             isReloading = true;
@@ -233,7 +267,6 @@ public class PlayerController : MonoBehaviour
             }
             isReloading = false;
         }
-        yield return null;
     }
 
     IEnumerator DashCooldown()

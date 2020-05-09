@@ -41,7 +41,7 @@ public class PickUpController : MonoBehaviour
             {
                 Destroy(other.gameObject);
             }
-            playerController.ChangeAmmoUI();
+            playerController.UpdateAmmoUI();
         }
     }
 

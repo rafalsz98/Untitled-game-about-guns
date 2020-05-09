@@ -17,20 +17,35 @@ public class Gun : Weapon
     public VisualEffect muzzleFlash;
 
 
-    private bool _isReloading;
+    private Light shotLight;
+    private float lightDuration = .05f;
 
     private void Awake() 
     {
+        shotLight = GetComponentInChildren<Light>();
         isGun = true;
         if (audioSource == null)
             audioSource = GameObject.FindWithTag("AudioSourcePlayer").GetComponent<AudioSource>();
     }
 
-    public void Shoot()
+    public void Shoot(PlayerController controller)
     {
+        if (ammoInMag <= 0)
+        {
+            StartCoroutine(controller.ReloadUtil());
+            return;
+        }
+
         ammoInMag--;
+        StartCoroutine(ShotLight());
         audioSource.PlayOneShot(shootingSound);
         muzzleFlash.Play();
+
+        if (ammoInMag <= 0)
+        {
+            StartCoroutine(controller.ReloadUtil());
+            return;
+        }
 
         // Raycast to hitted object
     }
@@ -49,5 +64,12 @@ public class Gun : Weapon
             currentAmmo -= needed;
         }
         
+    }
+
+    IEnumerator ShotLight()
+    {
+        shotLight.enabled = true;
+        yield return new WaitForSeconds(lightDuration);
+        shotLight.enabled = false;
     }
 }

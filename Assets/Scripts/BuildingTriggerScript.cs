@@ -10,9 +10,7 @@ public class BuildingTriggerScript : MonoBehaviour
     private int isIn = 0;
     public void PlayerEnter()
     {
-        Debug.Log("enter");
         isIn++;
-        Debug.Log(isIn);
         if (isIn != 1)
             return;
         floor.layer = 9; // Changing layer to the "Ground" so that player can aim with mouse on it
@@ -34,9 +32,7 @@ public class BuildingTriggerScript : MonoBehaviour
 
     public void PlayerExit()
     {
-        Debug.Log("exit");
         isIn--;
-        Debug.Log(isIn);
         if (isIn != 0)
             return;
         floor.layer = 0;
