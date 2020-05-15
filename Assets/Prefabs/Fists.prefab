@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6755164875730119358
 Transform:
   m_ObjectHideFlags: 0
@@ -46,6 +46,9 @@ MonoBehaviour:
   weaponName: Fists
   damage: 3
   weaponPrefab: {fileID: 1902143393563298656}
+  triggerArea: {fileID: 0}
+  handOffset: {x: 0, y: 0, z: 0}
+  handRotation: {x: 0, y: 0, z: 0}
   isGun: 0
   rateOfFire: 0.1
   durability: -1

@@ -14,4 +14,28 @@ public abstract class Weapon : MonoBehaviour
     public bool isGun;
     [Tooltip("Rate of fire in seconds")]
     public float rateOfFire;
+
+    #region Gun functions
+    public virtual void Shoot(PlayerController controller)
+    {
+
+    }
+
+    public virtual void Reload(ref int currentAmmo)
+    {
+
+    }
+    #endregion
+
+    #region Melee functions
+    public virtual void AttackLeft()
+    {
+
+    }
+
+    public virtual void AttackRight()
+    {
+
+    }
+    #endregion
 }

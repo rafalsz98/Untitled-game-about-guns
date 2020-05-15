@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class AmmoBox : MonoBehaviour
 {
     [Range(0, 3)]

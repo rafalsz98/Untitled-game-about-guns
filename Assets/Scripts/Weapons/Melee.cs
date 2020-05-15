@@ -9,11 +9,11 @@ public class Melee : Weapon
     public AudioClip leftAttackSound;
     public AudioClip rightAttackSound;
 
-    public void AttackLeft()
+    public override void AttackLeft()
     {
         Debug.Log("melee - attack left");
     }
-    public void AttackRight()
+    public override void AttackRight()
     {
         Debug.Log("melee - attack right");
     }

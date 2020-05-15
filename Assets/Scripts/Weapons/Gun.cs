@@ -28,7 +28,7 @@ public class Gun : Weapon
             audioSource = GameObject.FindWithTag("AudioSourcePlayer").GetComponent<AudioSource>();
     }
 
-    public void Shoot(PlayerController controller)
+    public override void Shoot(PlayerController controller)
     {
         if (ammoInMag <= 0)
         {
@@ -50,7 +50,7 @@ public class Gun : Weapon
         // Raycast to hitted object
     }
 
-    public void Reload(ref int currentAmmo)
+    public override void Reload(ref int currentAmmo)
     {
         int needed = clipSize - ammoInMag;
         if (needed > currentAmmo)
