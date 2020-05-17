@@ -13,19 +13,18 @@ public class Gun : Weapon
     public AudioClip shootingSound;
     public AudioClip reloadSound;
 
-    public AudioSource audioSource;
     public VisualEffect muzzleFlash;
 
 
+    private AudioSource audioSource;
     private Light shotLight;
     private float lightDuration = .05f;
 
-    private void Awake() 
+    private void Start() 
     {
         shotLight = GetComponentInChildren<Light>();
         isGun = true;
-        if (audioSource == null)
-            audioSource = GameObject.FindWithTag("AudioSourcePlayer").GetComponent<AudioSource>();
+        audioSource = GameManager.instance.audioSourcePlayer;
     }
 
     public override void Shoot(PlayerController controller)

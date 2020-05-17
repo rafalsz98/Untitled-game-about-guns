@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    public AudioSource audioSourcePlayer;
     public GameObject player;
     public GameObject map;
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Weapon : MonoBehaviour
 {
     public string weaponName;
-    public float damage;
+    public int damage;
     public GameObject weaponPrefab;
     public GameObject triggerArea;
     public Vector3 handOffset;
