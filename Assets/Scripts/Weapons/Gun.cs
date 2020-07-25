@@ -10,6 +10,7 @@ public class Gun : Weapon
     [Tooltip("0 - Pistol, 1 - Shotgun, 2 - Automatic, 3 - Sniper"), Range(0, 3)]
     public int ammoType;
     public float reloadTime;
+    public int range = 30;
     public AudioClip shootingSound;
     public AudioClip reloadSound;
 
@@ -47,6 +48,17 @@ public class Gun : Weapon
         }
 
         // Raycast to hitted object
+        RaycastHit raycastHit;
+        if (Physics.Raycast(
+            controller.transform.position + Vector3.up,
+            controller.transform.forward,
+            out raycastHit,
+            range
+            ))
+        {
+            Debug.Log(raycastHit.collider.gameObject);
+        }
+
     }
 
     public override void Reload(ref int currentAmmo)

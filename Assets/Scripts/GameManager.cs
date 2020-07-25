@@ -16,4 +16,5 @@ public class GameManager : MonoBehaviour
     public AudioSource audioSourcePlayer;
     public GameObject player;
     public GameObject map;
+    public Camera mainCamera;
 }

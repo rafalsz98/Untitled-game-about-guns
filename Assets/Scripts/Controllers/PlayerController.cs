@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
     public float Speed = 5f;
@@ -16,6 +15,8 @@ public class PlayerController : MonoBehaviour
     public HealthBar healthBar;
     public int maxHealth = 100;
     public float animationSmoothTime = .2f;
+    public float movementSmoothTime = 0.1f;
+    public float gravity = -9.8f;
     
     #region Ammo region
     public static int ammoTypesCount = 4;
@@ -34,8 +35,11 @@ public class PlayerController : MonoBehaviour
 
     [HideInInspector]
     public AudioSource audioSource;
-    private Rigidbody rb;
+    private CharacterController characterController;
+    private Vector3 velocity = Vector3.zero;
     private Vector3 input = Vector3.zero;
+    private Vector3 currentInputVelocity = Vector3.zero;
+
     private Camera cam;
     private float nextTimeToFire = 0f;
     private bool isReloading = false;
@@ -44,12 +48,14 @@ public class PlayerController : MonoBehaviour
     private int currentHealth;
     private Animator animator;
 
+    private float epsilon = 0.05f;
+
     // Start is called before the first frame update
     void Start()
     {
         handObject = GameObject.FindWithTag("Hand");
-        cam = Camera.main;
-        rb = GetComponent<Rigidbody>();
+        cam = GameManager.instance.mainCamera;
+        characterController = GetComponent<CharacterController>();
         weapon1 = fistsPrefab;
         weapon2 = fistsPrefab;
         audioSource = GetComponentInChildren<AudioSource>();
@@ -62,40 +68,53 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float x = Input.GetAxis("Vertical");
-        float z = Input.GetAxis("Horizontal");
-        input = new Vector3(z, 0, x);
+        #region Movement data gathering
+        float x = Input.GetAxisRaw("Vertical");
+        float z = Input.GetAxisRaw("Horizontal");
+        Vector3 newInput = new Vector3(z, 0, x).normalized;
+        input = Vector3.SmoothDamp(input, newInput, ref currentInputVelocity, movementSmoothTime);
 
-        // Animation setting ---
-        if (input != Vector3.zero)
+        if (characterController.isGrounded && velocity.y < 0)
+            velocity.y = 0;
+        else if (!characterController.isGrounded)
+            velocity.y += gravity * Time.deltaTime;
+        #endregion
+
+        #region Animation settings
+        if (input.sqrMagnitude > epsilon)
         {
             animator.SetFloat("ActionType", 1, animationSmoothTime, Time.deltaTime);
             animator.SetFloat("MovX", input.x, animationSmoothTime, Time.deltaTime);
             animator.SetFloat("MovY", input.y, animationSmoothTime, Time.deltaTime);
         }
-        else if (input == Vector3.zero && animator.GetFloat("ActionType") != 0)
+        else if (input.sqrMagnitude <= epsilon && animator.GetFloat("ActionType") != 0)
         {
             animator.SetFloat("ActionType", 0, animationSmoothTime, Time.deltaTime);
             animator.SetFloat("MovX", 0);
             animator.SetFloat("MovY", 0);
         }
-        // ---
+        #endregion
 
-        // Rotation setting ---
+        #region Set of player model rotation
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
         RaycastHit raycastHit;
         if (Physics.Raycast(ray, out raycastHit, 100, layerMask))
         {
-            LookAt(raycastHit.point);
+            Vector3 point = raycastHit.point;
+            transform.LookAt(new Vector3(point.x, transform.position.y, point.z));
         }
-        // ---
+        #endregion
 
-        if (!hasDashed && Input.GetButtonDown("Dash") && input != Vector3.zero)
+        #region Dash
+        if (!hasDashed && Input.GetButtonDown("Dash") && input.sqrMagnitude <= epsilon)
         {
             hasDashed = true;
-            rb.AddForce(input * dashDistance, ForceMode.VelocityChange);
+            //TODO
             StartCoroutine("DashCooldown");
         }
+        #endregion
+
+        #region Primary attack / shooting
         if (!isReloading && Input.GetButtonDown("Fire1") && Time.time >= nextTimeToFire)
         {
             nextTimeToFire = Time.time + weapon1.rateOfFire;
@@ -109,34 +128,41 @@ public class PlayerController : MonoBehaviour
                 weapon1.AttackLeft();
             }
         }
+        #endregion
+
+        #region Swap weapons
         if (Input.GetButtonDown("Swap"))
         {
             SwapWeapon();
         }
+        #endregion
+
+        #region Reload
         if (!isReloading && Input.GetButtonDown("Reload") && weapon1.isGun)
         {
             StartCoroutine("ReloadUtil");
         }
+        #endregion
+
+        #region Drop weapon
         if (Input.GetButtonDown("Drop"))
         {
             DropCurrentWeapon();
         }
+        #endregion
 
-        // debug only
-        if (Input.GetKeyDown(KeyCode.Space))
+        // Debug
+        if (Input.GetKeyDown(KeyCode.I))
         {
-            TakeDamage(10);
+            
         }
     }
 
-    private void FixedUpdate() 
+    private void FixedUpdate()
     {
-        rb.MovePosition(rb.position + input * Speed * Time.fixedDeltaTime);
-    }
+        characterController.Move(input * Speed * Time.fixedDeltaTime);
+        characterController.Move(velocity * Time.fixedDeltaTime);
 
-    void LookAt(Vector3 point)
-    {
-        transform.LookAt(new Vector3(point.x, transform.position.y, point.z));
     }
 
     // Swaps secondary weapon with primary
@@ -232,30 +258,11 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Death");
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("BuildingTrigger"))
-        {
-            BuildingTriggerScript script;
-            script = other.gameObject.GetComponentInParent<BuildingTriggerScript>();
-            if (script == null)
-                script = other.gameObject.GetComponent<BuildingTriggerScript>();
-            script.PlayerEnter();
-        }
-    }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("BuildingTrigger"))
-        {
-            BuildingTriggerScript script;
-            script = other.gameObject.GetComponentInParent<BuildingTriggerScript>();
-            if (script == null)
-                script = other.gameObject.GetComponent<BuildingTriggerScript>();
-            script.PlayerExit();
-        }
-    }
-
+    #region Coroutines
+    // Reload coroutine is started every time user reloads weapon
+    // It is a wrapper for Reload function from Gun class, responsible for
+    // playing sound, animation, time delay and blocking multiple reloads at the same time
     public IEnumerator ReloadUtil()
     {
         Gun gun = (Gun)weapon1;
@@ -281,9 +288,46 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Blocks dash for set amount of time after dashing
     IEnumerator DashCooldown()
     {
         yield return new WaitForSeconds(dashCooldown);
         hasDashed = false;
+    }
+    #endregion
+
+    private void OnTriggerEnter(Collider other)
+    {
+        #region Enter the building trigger
+        if (other.gameObject.CompareTag("BuildingTrigger"))
+        {
+            BuildingTriggerScript script;
+            script = other.gameObject.GetComponentInParent<BuildingTriggerScript>();
+            if (script == null)
+                script = other.gameObject.GetComponent<BuildingTriggerScript>();
+            script.PlayerEnter();
+        }
+        #endregion
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        #region Exit the building trigger
+        if (other.gameObject.CompareTag("BuildingTrigger"))
+        {
+            BuildingTriggerScript script;
+            script = other.gameObject.GetComponentInParent<BuildingTriggerScript>();
+            if (script == null)
+                script = other.gameObject.GetComponent<BuildingTriggerScript>();
+            script.PlayerExit();
+        }
+        #endregion
+    }
+
+    private void OnDrawGizmos()
+    {
+        // Draw shot range
+        Gizmos.color = Color.blue;
+        Gizmos.DrawRay(transform.position + Vector3.up, transform.forward * 30);
     }
 }

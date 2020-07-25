@@ -18,24 +18,24 @@ public abstract class Weapon : MonoBehaviour
     #region Gun functions
     public virtual void Shoot(PlayerController controller)
     {
-
+        throw new System.NotSupportedException();
     }
 
     public virtual void Reload(ref int currentAmmo)
     {
-
+        throw new System.NotSupportedException();
     }
     #endregion
 
     #region Melee functions
     public virtual void AttackLeft()
     {
-
+        throw new System.NotSupportedException();
     }
 
     public virtual void AttackRight()
     {
-
+        throw new System.NotSupportedException();
     }
     #endregion
 }
