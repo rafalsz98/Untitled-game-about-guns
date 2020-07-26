@@ -56,7 +56,11 @@ public class Gun : Weapon
             range
             ))
         {
-            Debug.Log(raycastHit.collider.gameObject);
+            if (raycastHit.collider.gameObject.CompareTag("Enemy"))
+            {
+                EnemyController enemy = raycastHit.collider.gameObject.GetComponent<EnemyController>();
+                enemy.TakeDamage(damage);
+            }
         }
 
     }

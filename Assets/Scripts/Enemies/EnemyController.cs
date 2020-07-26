@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class EnemyController : MonoBehaviour
 {
     public float radius = 30f;
-    public float health = 40f;
+    public int health = 40;
     public int damage = 10;
     public float attackDelay = 0.5f;
     public float attackCooldown = 1.5f;
@@ -29,6 +29,19 @@ public class EnemyController : MonoBehaviour
         StartCoroutine("ProximityCheck");
     }
 
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        Debug.Log(health);
+        if (health <= 0)
+        {
+            Debug.Log("Enemy died");
+            // Ragdoll?
+            Destroy(this.gameObject);
+        }
+    }
+
+    #region Coroutines
     IEnumerator ProximityCheck()
     {
         while (isAlive)
@@ -69,7 +82,7 @@ public class EnemyController : MonoBehaviour
         }
 
     }
-
+    #endregion
 
     private void OnDrawGizmos()
     {
