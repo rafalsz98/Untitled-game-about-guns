@@ -155,14 +155,14 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("CameraLeft"))
         {
             //cinemachineFreeLook.m_XAxis.Value += 90;
-            cam.transform.RotateAround(transform.position, Vector3.up, -90);
+            //cam.transform.RotateAround(transform.position, Vector3.up, -90);
             cameraController.Offset = Quaternion.Euler(0, -90, 0) * cameraController.Offset;
         }
 
         if (Input.GetButtonDown("CameraRight"))
         {
             //cinemachineFreeLook.m_XAxis.Value -= 90;
-            cam.transform.RotateAround(transform.position, Vector3.up, 90);
+            //cam.transform.RotateAround(transform.position, Vector3.up, 90);
             cameraController.Offset = Quaternion.Euler(0, 90, 0) * cameraController.Offset;
         }
         #endregion
