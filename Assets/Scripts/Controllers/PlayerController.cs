@@ -69,9 +69,13 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         #region Movement data gathering
-        float x = Input.GetAxisRaw("Vertical");
-        float z = Input.GetAxisRaw("Horizontal");
-        Vector3 newInput = new Vector3(z, 0, x).normalized;
+        float x = Input.GetAxisRaw("Horizontal");
+        float z = Input.GetAxisRaw("Vertical");
+
+        // Forward direction depends on direction of camera
+        Vector3 newInput = (Quaternion.Euler(0, cam.transform.rotation.eulerAngles.y, 0) * new Vector3(x, 0, z)).normalized;
+
+
         input = Vector3.SmoothDamp(input, newInput, ref currentInputVelocity, movementSmoothTime);
 
         if (characterController.isGrounded && velocity.y < 0)
@@ -154,13 +158,15 @@ public class PlayerController : MonoBehaviour
         // Debug
         if (Input.GetKeyDown(KeyCode.I))
         {
-            
+
         }
     }
 
     private void FixedUpdate()
     {
-        characterController.Move(input * Speed * Time.fixedDeltaTime);
+        if (input.sqrMagnitude > epsilon)
+            characterController.Move(input * Speed * Time.fixedDeltaTime);
+        if (velocity.sqrMagnitude > epsilon)
         characterController.Move(velocity * Time.fixedDeltaTime);
 
     }
