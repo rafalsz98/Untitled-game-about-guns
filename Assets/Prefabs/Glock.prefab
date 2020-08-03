@@ -203,6 +203,7 @@ MonoBehaviour:
   showAdditionalSettings: 0
   m_AreaLightEmissiveMeshShadowCastingMode: 0
   m_AreaLightEmissiveMeshMotionVectorGenerationMode: 0
+  m_AreaLightEmissiveMeshLayer: -1
 --- !u!1 &6410092308310279946
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,6 +265,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -288,6 +290,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!54 &8647862905154830614
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -330,20 +333,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: Glock
-  damage: 1.08
+  damage: 1
   weaponPrefab: {fileID: 6410092308310279946}
   triggerArea: {fileID: 7120795722216136660}
   handOffset: {x: 0.0556, y: 0.0041, z: -0.0054}
   handRotation: {x: 180, y: -90, z: -90}
+  chanceToCancelAttack: 20
   isGun: 0
   rateOfFire: 0.2
   clipSize: 15
   ammoInMag: 15
   ammoType: 0
   reloadTime: 2
+  range: 30
   shootingSound: {fileID: 8300000, guid: 92378e264fd03f04980ac41cd16f5cb9, type: 3}
   reloadSound: {fileID: 8300000, guid: 5c229713c8231354a93da44e3461742f, type: 3}
-  audioSource: {fileID: 0}
+  chanceToCancelAttack: 0
   muzzleFlash: {fileID: 9086635554118542287}
 --- !u!1 &7058591663905942427
 GameObject:
@@ -428,6 +433,7 @@ VFXRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

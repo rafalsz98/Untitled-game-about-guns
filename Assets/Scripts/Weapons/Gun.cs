@@ -59,7 +59,7 @@ public class Gun : Weapon
             if (raycastHit.collider.gameObject.CompareTag("Enemy"))
             {
                 EnemyController enemy = raycastHit.collider.gameObject.GetComponent<EnemyController>();
-                enemy.TakeDamage(damage);
+                enemy.TakeDamage(damage, chanceToCancelAttack);
             }
         }
 

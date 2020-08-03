@@ -10,6 +10,8 @@ public abstract class Weapon : MonoBehaviour
     public GameObject triggerArea;
     public Vector3 handOffset;
     public Vector3 handRotation;
+    public int chanceToCancelAttack;
+
     [HideInInspector]
     public bool isGun;
     [Tooltip("Rate of fire in seconds")]

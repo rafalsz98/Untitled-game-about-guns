@@ -10,6 +10,8 @@ public class EnemyController : MonoBehaviour
     public int damage = 10;
     public float attackDelay = 0.5f;
     public float attackCooldown = 1.5f;
+    [Tooltip("0 - 100 | Reduces chance to cancel attack")]
+    public int toughness;
     [Tooltip("Debug only")]
     public AnimationClip attackAnimation;
 
@@ -29,10 +31,19 @@ public class EnemyController : MonoBehaviour
         StartCoroutine("ProximityCheck");
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, int chanceToCancelAttack)
     {
         health -= damage;
         Debug.Log(health);
+
+        // Checking if attack from player canceled enemy attack
+        if (isAttacking)
+        {
+            float chance = chanceToCancelAttack * (100 - toughness) / 10000;
+            float random = Random.value;
+            if (random <= chance)
+                isAttacking = false;
+        }
         if (health <= 0)
         {
             Debug.Log("Enemy died");
@@ -69,16 +80,22 @@ public class EnemyController : MonoBehaviour
 
     IEnumerator Attack()
     {
+        Debug.Log("Started attack");
         isAttacking = true;
+        lastAttackTime = Time.time;
         // Play animation
-
         yield return new WaitForSeconds(attackDelay);
-
+        
+        lastAttackTime = Time.time;
         if (isAttacking)
         {
             playerController.TakeDamage(damage);
             isAttacking = false;
-            lastAttackTime = Time.time;
+            Debug.Log("Attacked");
+        }
+        else
+        {
+            Debug.Log("Attack canceled");
         }
 
     }
