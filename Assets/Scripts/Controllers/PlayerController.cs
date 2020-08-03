@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     public float animationSmoothTime = .2f;
     public float movementSmoothTime = 0.1f;
     public float gravity = -9.8f;
+    //public Cinemachine.CinemachineFreeLook cinemachineFreeLook;
     
     #region Ammo region
     public static int ammoTypesCount = 4;
@@ -41,6 +42,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 currentInputVelocity = Vector3.zero;
 
     private Camera cam;
+    private CameraController cameraController;
     private float nextTimeToFire = 0f;
     private bool isReloading = false;
     private bool hasDashed = false;
@@ -55,6 +57,7 @@ public class PlayerController : MonoBehaviour
     {
         handObject = GameObject.FindWithTag("Hand");
         cam = GameManager.instance.mainCamera;
+        cameraController = cam.GetComponent<CameraController>();
         characterController = GetComponent<CharacterController>();
         weapon1 = fistsPrefab;
         weapon2 = fistsPrefab;
@@ -134,13 +137,6 @@ public class PlayerController : MonoBehaviour
         }
         #endregion
 
-        #region Swap weapons
-        if (Input.GetButtonDown("Swap"))
-        {
-            SwapWeapon();
-        }
-        #endregion
-
         #region Reload
         if (!isReloading && Input.GetButtonDown("Reload") && weapon1.isGun)
         {
@@ -155,6 +151,21 @@ public class PlayerController : MonoBehaviour
         }
         #endregion
 
+        #region Camera change view
+        if (Input.GetButtonDown("CameraLeft"))
+        {
+            //cinemachineFreeLook.m_XAxis.Value += 90;
+            cam.transform.RotateAround(transform.position, Vector3.up, -90);
+            cameraController.Offset = Quaternion.Euler(0, -90, 0) * cameraController.Offset;
+        }
+
+        if (Input.GetButtonDown("CameraRight"))
+        {
+            //cinemachineFreeLook.m_XAxis.Value -= 90;
+            cam.transform.RotateAround(transform.position, Vector3.up, 90);
+            cameraController.Offset = Quaternion.Euler(0, 90, 0) * cameraController.Offset;
+        }
+        #endregion
         // Debug
         if (Input.GetKeyDown(KeyCode.I))
         {
