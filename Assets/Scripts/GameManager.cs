@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        inputMaster = new InputMaster();
     }
     #endregion
 
@@ -17,4 +19,15 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public GameObject map;
     public Camera mainCamera;
+    public InputMaster inputMaster;
+
+    private void OnEnable()
+    {
+        inputMaster.Enable();
+    }
+
+    private void OnDisable()
+    {
+        inputMaster.Disable();
+    }
 }

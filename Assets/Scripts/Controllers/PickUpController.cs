@@ -10,7 +10,12 @@ public class PickUpController : MonoBehaviour
 
     private int collisionCount = 0;
     private List<Collider> colliders = new List<Collider>();
+    private InputMaster inputMaster;
 
+    private void Start()
+    {
+        inputMaster = GameManager.instance.inputMaster;
+    }
 
     private void OnTriggerEnter(Collider other) 
     {
@@ -59,7 +64,7 @@ public class PickUpController : MonoBehaviour
     {
         while (collisionCount > 0)
         {
-            if (Input.GetButtonDown("Use"))
+            if (inputMaster.Player.Use.triggered)
             {
                 playerController.PickUpWeapon(colliders[0].gameObject.GetComponentInParent<Weapon>());
 

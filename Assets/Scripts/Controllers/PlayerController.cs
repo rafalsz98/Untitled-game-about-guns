@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -32,11 +33,12 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]
     public Weapon weapon2;
 
-
+    
 
     [HideInInspector]
     public AudioSource audioSource;
     private CharacterController characterController;
+    private InputMaster inputMaster;
     private Vector3 velocity = Vector3.zero;
     private Vector3 input = Vector3.zero;
     private Vector3 currentInputVelocity = Vector3.zero;
@@ -55,6 +57,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        inputMaster = GameManager.instance.inputMaster;
         handObject = GameObject.FindWithTag("Hand");
         cam = GameManager.instance.mainCamera;
         cameraController = cam.GetComponent<CameraController>();
@@ -72,8 +75,9 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         #region Movement data gathering
-        float x = Input.GetAxisRaw("Horizontal");
-        float z = Input.GetAxisRaw("Vertical");
+
+        float x = inputMaster.Player.HorizontalAxis.ReadValue<float>();
+        float z = inputMaster.Player.VerticalAxis.ReadValue<float>();
 
         // Forward direction depends on direction of camera
         Vector3 newInput = (Quaternion.Euler(0, cam.transform.rotation.eulerAngles.y, 0) * new Vector3(x, 0, z)).normalized;
@@ -103,7 +107,7 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         #region Set of player model rotation
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        Ray ray = cam.ScreenPointToRay(Mouse.current.position.ReadValue());
         RaycastHit raycastHit;
         if (Physics.Raycast(ray, out raycastHit, 100, layerMask))
         {
@@ -113,7 +117,7 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         #region Dash
-        if (!hasDashed && Input.GetButtonDown("Dash") && input.sqrMagnitude >= epsilon)
+        if (!hasDashed && inputMaster.Player.Dash.triggered && input.sqrMagnitude >= epsilon)
         {
             hasDashed = true;
             StartCoroutine("DashCooldown");
@@ -122,7 +126,7 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         #region Primary attack / shooting
-        if (!isReloading && Input.GetButtonDown("Fire1") && Time.time >= nextTimeToFire)
+        if (!isReloading && inputMaster.Player.AttackLeft.triggered && Time.time >= nextTimeToFire)
         {
             nextTimeToFire = Time.time + weapon1.rateOfFire;
             if (weapon1.isGun)
@@ -138,39 +142,40 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         #region Reload
-        if (!isReloading && Input.GetButtonDown("Reload") && weapon1.isGun)
+        if (!isReloading && inputMaster.Player.Reload.triggered && weapon1.isGun)
         {
             StartCoroutine("ReloadUtil");
         }
         #endregion
 
         #region Drop weapon
-        if (Input.GetButtonDown("Drop"))
+        if (inputMaster.Player.Drop.triggered)
         {
             DropCurrentWeapon();
         }
         #endregion
 
         #region Camera change view
-        if (Input.GetButtonDown("CameraLeft"))
+        if (inputMaster.Player.CameraLeft.triggered)
         {
             //cinemachineFreeLook.m_XAxis.Value += 90;
             //cam.transform.RotateAround(transform.position, Vector3.up, -90);
             cameraController.Offset = Quaternion.Euler(0, -90, 0) * cameraController.Offset;
         }
 
-        if (Input.GetButtonDown("CameraRight"))
+        if (inputMaster.Player.CameraRight.triggered)
         {
             //cinemachineFreeLook.m_XAxis.Value -= 90;
             //cam.transform.RotateAround(transform.position, Vector3.up, 90);
             cameraController.Offset = Quaternion.Euler(0, 90, 0) * cameraController.Offset;
         }
         #endregion
-        // Debug
-        if (Input.GetKeyDown(KeyCode.I))
-        {
 
-        }
+        // Debug
+        //if (Input.GetKeyDown(KeyCode.I))
+        //{
+
+        //}
     }
 
     private void FixedUpdate()
