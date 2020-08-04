@@ -333,7 +333,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: Glock
-  damage: 1
+  damage: 10
   weaponPrefab: {fileID: 6410092308310279946}
   triggerArea: {fileID: 7120795722216136660}
   handOffset: {x: 0.0556, y: 0.0041, z: -0.0054}
@@ -348,7 +348,6 @@ MonoBehaviour:
   range: 30
   shootingSound: {fileID: 8300000, guid: 92378e264fd03f04980ac41cd16f5cb9, type: 3}
   reloadSound: {fileID: 8300000, guid: 5c229713c8231354a93da44e3461742f, type: 3}
-  chanceToCancelAttack: 0
   muzzleFlash: {fileID: 9086635554118542287}
 --- !u!1 &7058591663905942427
 GameObject:
