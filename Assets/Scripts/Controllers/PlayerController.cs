@@ -113,11 +113,11 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         #region Dash
-        if (!hasDashed && Input.GetButtonDown("Dash") && input.sqrMagnitude <= epsilon)
+        if (!hasDashed && Input.GetButtonDown("Dash") && input.sqrMagnitude >= epsilon)
         {
             hasDashed = true;
-            //TODO
             StartCoroutine("DashCooldown");
+            input += (newInput * dashDistance);
         }
         #endregion
 
