@@ -19,18 +19,10 @@ public class @InputMaster : IInputActionCollection, IDisposable
             ""id"": ""b0c599c4-42bf-4d12-a03d-f7eb337567e1"",
             ""actions"": [
                 {
-                    ""name"": ""HorizontalAxis"",
+                    ""name"": ""Movement"",
                     ""type"": ""Value"",
-                    ""id"": ""3e3ca63a-c2bf-458c-b742-933b8972148f"",
-                    ""expectedControlType"": ""Axis"",
-                    ""processors"": """",
-                    ""interactions"": """"
-                },
-                {
-                    ""name"": ""VerticalAxis"",
-                    ""type"": ""Value"",
-                    ""id"": ""808196ec-7cdd-4d25-81f4-c268a0ca21f2"",
-                    ""expectedControlType"": ""Axis"",
+                    ""id"": ""9f03a607-32c5-411e-86bd-21a5d8224b6b"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -97,6 +89,14 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Shove"",
+                    ""type"": ""Button"",
+                    ""id"": ""869b0a0d-85b7-4621-9150-b3984bba35c8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
                 }
             ],
             ""bindings"": [
@@ -123,39 +123,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""wsad"",
-                    ""id"": ""16386a6c-01a0-4651-b266-0c771cd0622b"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""HorizontalAxis"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""8d4dba45-7afa-46d1-955c-614bb9010367"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keybord and mouse"",
-                    ""action"": ""HorizontalAxis"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""00aa692f-4858-472b-b420-3de9705d9a00"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keybord and mouse"",
-                    ""action"": ""HorizontalAxis"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": """",
                     ""id"": ""52e48c69-4b99-4a75-bba4-80969caa05e2"",
                     ""path"": ""<Mouse>/rightButton"",
@@ -165,39 +132,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""action"": ""AttackRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""wsad"",
-                    ""id"": ""a43d1f13-8fdf-4bdd-af47-489a9fa4c4ea"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""VerticalAxis"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""e118696d-05bf-4b71-9b80-a99c776f2911"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keybord and mouse"",
-                    ""action"": ""VerticalAxis"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""d1204acf-49cc-4794-bdc6-e15a7676365d"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keybord and mouse"",
-                    ""action"": ""VerticalAxis"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
@@ -253,6 +187,72 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""action"": ""Reload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f4dd2b82-8715-457a-a58f-b456c78bd8ed"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Shove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""wsad"",
+                    ""id"": ""8e154d91-cebe-41c8-a39c-cdd1cfd94e61"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""bbb6c0be-a55f-45ff-a3e7-dfce4804cb70"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""68d2842a-4cfb-4125-8768-d7586e8a5edd"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""7b2cda97-450b-4298-81be-403179c56d9b"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""a812e7a3-7cc6-45dd-9cd2-0b5938713709"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -278,8 +278,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_HorizontalAxis = m_Player.FindAction("HorizontalAxis", throwIfNotFound: true);
-        m_Player_VerticalAxis = m_Player.FindAction("VerticalAxis", throwIfNotFound: true);
+        m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_AttackLeft = m_Player.FindAction("AttackLeft", throwIfNotFound: true);
         m_Player_AttackRight = m_Player.FindAction("AttackRight", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
@@ -288,6 +287,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
         m_Player_CameraLeft = m_Player.FindAction("CameraLeft", throwIfNotFound: true);
         m_Player_CameraRight = m_Player.FindAction("CameraRight", throwIfNotFound: true);
         m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
+        m_Player_Shove = m_Player.FindAction("Shove", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -337,8 +337,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
-    private readonly InputAction m_Player_HorizontalAxis;
-    private readonly InputAction m_Player_VerticalAxis;
+    private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_AttackLeft;
     private readonly InputAction m_Player_AttackRight;
     private readonly InputAction m_Player_Dash;
@@ -347,12 +346,12 @@ public class @InputMaster : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_CameraLeft;
     private readonly InputAction m_Player_CameraRight;
     private readonly InputAction m_Player_Reload;
+    private readonly InputAction m_Player_Shove;
     public struct PlayerActions
     {
         private @InputMaster m_Wrapper;
         public PlayerActions(@InputMaster wrapper) { m_Wrapper = wrapper; }
-        public InputAction @HorizontalAxis => m_Wrapper.m_Player_HorizontalAxis;
-        public InputAction @VerticalAxis => m_Wrapper.m_Player_VerticalAxis;
+        public InputAction @Movement => m_Wrapper.m_Player_Movement;
         public InputAction @AttackLeft => m_Wrapper.m_Player_AttackLeft;
         public InputAction @AttackRight => m_Wrapper.m_Player_AttackRight;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
@@ -361,6 +360,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
         public InputAction @CameraLeft => m_Wrapper.m_Player_CameraLeft;
         public InputAction @CameraRight => m_Wrapper.m_Player_CameraRight;
         public InputAction @Reload => m_Wrapper.m_Player_Reload;
+        public InputAction @Shove => m_Wrapper.m_Player_Shove;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -370,12 +370,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_PlayerActionsCallbackInterface != null)
             {
-                @HorizontalAxis.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHorizontalAxis;
-                @HorizontalAxis.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHorizontalAxis;
-                @HorizontalAxis.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHorizontalAxis;
-                @VerticalAxis.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnVerticalAxis;
-                @VerticalAxis.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnVerticalAxis;
-                @VerticalAxis.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnVerticalAxis;
+                @Movement.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
+                @Movement.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
+                @Movement.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
                 @AttackLeft.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttackLeft;
                 @AttackLeft.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttackLeft;
                 @AttackLeft.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttackLeft;
@@ -400,16 +397,16 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Reload.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReload;
                 @Reload.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReload;
                 @Reload.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnReload;
+                @Shove.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShove;
+                @Shove.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShove;
+                @Shove.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShove;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @HorizontalAxis.started += instance.OnHorizontalAxis;
-                @HorizontalAxis.performed += instance.OnHorizontalAxis;
-                @HorizontalAxis.canceled += instance.OnHorizontalAxis;
-                @VerticalAxis.started += instance.OnVerticalAxis;
-                @VerticalAxis.performed += instance.OnVerticalAxis;
-                @VerticalAxis.canceled += instance.OnVerticalAxis;
+                @Movement.started += instance.OnMovement;
+                @Movement.performed += instance.OnMovement;
+                @Movement.canceled += instance.OnMovement;
                 @AttackLeft.started += instance.OnAttackLeft;
                 @AttackLeft.performed += instance.OnAttackLeft;
                 @AttackLeft.canceled += instance.OnAttackLeft;
@@ -434,6 +431,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Reload.started += instance.OnReload;
                 @Reload.performed += instance.OnReload;
                 @Reload.canceled += instance.OnReload;
+                @Shove.started += instance.OnShove;
+                @Shove.performed += instance.OnShove;
+                @Shove.canceled += instance.OnShove;
             }
         }
     }
@@ -449,8 +449,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
     }
     public interface IPlayerActions
     {
-        void OnHorizontalAxis(InputAction.CallbackContext context);
-        void OnVerticalAxis(InputAction.CallbackContext context);
+        void OnMovement(InputAction.CallbackContext context);
         void OnAttackLeft(InputAction.CallbackContext context);
         void OnAttackRight(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
@@ -459,5 +458,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
         void OnCameraLeft(InputAction.CallbackContext context);
         void OnCameraRight(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
+        void OnShove(InputAction.CallbackContext context);
     }
 }

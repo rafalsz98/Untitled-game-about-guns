@@ -10,6 +10,7 @@ public class EnemyController : MonoBehaviour
     public int damage = 10;
     public float attackDelay = 0.5f;
     public float attackCooldown = 1.5f;
+    public float afterShoveCooldown = 0.5f;
     [Tooltip("0 - 100 | Reduces chance to cancel attack")]
     public int toughness;
     [Tooltip("Debug only")]
@@ -39,17 +40,26 @@ public class EnemyController : MonoBehaviour
         // Checking if attack from player canceled enemy attack
         if (isAttacking)
         {
-            float chance = chanceToCancelAttack * (100 - toughness) / 10000;
+            Debug.Log(chanceToCancelAttack);
+            float chance = (float)(chanceToCancelAttack * (100 - toughness)) / 10000;
             float random = Random.value;
             if (random <= chance)
                 isAttacking = false;
+            Debug.Log(new Vector2(random, chance));
         }
         if (health <= 0)
         {
-            Debug.Log("Enemy died");
             // Ragdoll?
             Destroy(this.gameObject);
         }
+    }
+
+    public void TakeShove(Vector3 direction)
+    {
+        agent.Move(direction); //todo: fluent movement
+        agent.isStopped = true;
+        isAttacking = false;
+        StartCoroutine(AgentCooldownAfterShove());
     }
 
     #region Coroutines
@@ -80,7 +90,6 @@ public class EnemyController : MonoBehaviour
 
     IEnumerator Attack()
     {
-        Debug.Log("Started attack");
         isAttacking = true;
         lastAttackTime = Time.time;
         // Play animation
@@ -91,13 +100,18 @@ public class EnemyController : MonoBehaviour
         {
             playerController.TakeDamage(damage);
             isAttacking = false;
-            Debug.Log("Attacked");
         }
         else
         {
             Debug.Log("Attack canceled");
         }
 
+    }
+
+    IEnumerator AgentCooldownAfterShove()
+    {
+        yield return new WaitForSeconds(afterShoveCooldown);
+        agent.isStopped = false;
     }
     #endregion
 

@@ -6,35 +6,46 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
+    [Header("Basic settings")]
     public float Speed = 5f;
-    public LayerMask layerMask;
     public float dashDistance = 2f;
-    public float dashCooldown = 3f;
-    public Vector3 dropOffset;
+    public float dashCooldown = 1.5f;
+    public float shoveCooldown = 3f;
+    public int shoveStrength = 3;
     public float dropStrength = 2f;
-    public AmmoBar ammoBar;
-    public HealthBar healthBar;
     public int maxHealth = 100;
+    public float gravity = -9.8f;
+    
+    [Header("Advanced settings and references")]
+    public HealthBar healthBar;
+    public AmmoBar ammoBar;
+    [Tooltip("Select layer that is a ground in the scene. Player will rotate only if pointing on object with that layer set")]
+    public LayerMask layerMask;
+    [Tooltip("Offset added to current position when dropping weapon")]
+    public Vector3 dropOffset;
     public float animationSmoothTime = .2f;
     public float movementSmoothTime = 0.1f;
-    public float gravity = -9.8f;
-    //public Cinemachine.CinemachineFreeLook cinemachineFreeLook;
-    
+    [Tooltip("Range of the shove action, in other words size of the box that serves as a collision detection (half extend)")]
+    public Vector3 shoveRange;
+    [Tooltip("Offset added to current position when creating collision box")]
+    public Vector3 shoveBoxOffset;
+    [Tooltip("Fists are always given on start of the game and when weapon is dropped")]
+    public Weapon fistsPrefab;
+
+
     #region Ammo region
     public static int ammoTypesCount = 4;
+    [Header("Ammo settings")]
     public int[] currentAmmo = new int[ammoTypesCount];
     [Tooltip("0 - Pistol, 1 - Shotgun, 2 - Automatic, 3 - Sniper")]
     public int[] maxAmmo = new int[ammoTypesCount];
     #endregion
 
-    public Weapon fistsPrefab;
+
     [HideInInspector]
     public Weapon weapon1;
     [HideInInspector]
     public Weapon weapon2;
-
-    
-
     [HideInInspector]
     public AudioSource audioSource;
     private CharacterController characterController;
@@ -48,9 +59,11 @@ public class PlayerController : MonoBehaviour
     private float nextTimeToFire = 0f;
     private bool isReloading = false;
     private bool hasDashed = false;
+    private bool hasShoved = false;
     private GameObject handObject;
     private int currentHealth;
     private Animator animator;
+
 
     private float epsilon = 0.05f;
 
@@ -76,11 +89,10 @@ public class PlayerController : MonoBehaviour
     {
         #region Movement data gathering
 
-        float x = inputMaster.Player.HorizontalAxis.ReadValue<float>();
-        float z = inputMaster.Player.VerticalAxis.ReadValue<float>();
+        Vector2 xz = inputMaster.Player.Movement.ReadValue<Vector2>();
 
         // Forward direction depends on direction of camera
-        Vector3 newInput = (Quaternion.Euler(0, cam.transform.rotation.eulerAngles.y, 0) * new Vector3(x, 0, z)).normalized;
+        Vector3 newInput = (Quaternion.Euler(0, cam.transform.rotation.eulerAngles.y, 0) * new Vector3(xz.x, 0, xz.y)).normalized;
 
 
         input = Vector3.SmoothDamp(input, newInput, ref currentInputVelocity, movementSmoothTime);
@@ -171,11 +183,28 @@ public class PlayerController : MonoBehaviour
         }
         #endregion
 
-        // Debug
-        //if (Input.GetKeyDown(KeyCode.I))
-        //{
+        #region Shove
+        if (!hasShoved && inputMaster.Player.Shove.triggered)
+        {
+            Debug.Log("shove");
+            hasShoved = true;
+            StartCoroutine(ShoveCooldown());
+            // Play animation *todo*
 
-        //}
+            // Check for enemies to shove
+            Collider[] cols = Physics.OverlapBox(transform.position + shoveBoxOffset, shoveRange, transform.rotation);
+            if (cols.Length != 0)
+            {
+                foreach(Collider col in cols)
+                {
+                    if (col.gameObject.CompareTag("Enemy"))
+                    {
+                        col.gameObject.GetComponent<EnemyController>().TakeShove(transform.forward * shoveStrength);
+                    }
+                }
+            }
+        }
+        #endregion
     }
 
     private void FixedUpdate()
@@ -276,8 +305,8 @@ public class PlayerController : MonoBehaviour
         currentHealth -= damage;
         if (currentHealth > 0)
             healthBar.SetHealth(currentHealth);
-        else
-            Debug.Log("Death");
+        //else
+            //death
     }
 
 
@@ -315,6 +344,12 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(dashCooldown);
         hasDashed = false;
+    }
+
+    IEnumerator ShoveCooldown()
+    {
+        yield return new WaitForSeconds(shoveCooldown);
+        hasShoved = false;
     }
     #endregion
 
