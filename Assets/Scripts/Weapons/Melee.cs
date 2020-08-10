@@ -4,10 +4,16 @@ using UnityEngine;
 
 public class Melee : Weapon
 {
+    [Header("Melee class proporties")]
     public int durability;
     public float reach;
     public AudioClip leftAttackSound;
     public AudioClip rightAttackSound;
+
+    private void Start()
+    {
+        type = ItemType.Melee;
+    }
 
     public override void AttackLeft()
     {

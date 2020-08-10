@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class AmmoBox : MonoBehaviour
 {
-    [Range(0, 3)]
-    public int ammoType;
+    public AmmoType ammoType;
     public int ammoCount;
 }
+
+public enum AmmoType { Pistol};

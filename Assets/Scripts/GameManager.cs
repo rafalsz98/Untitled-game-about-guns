@@ -21,9 +21,15 @@ public class GameManager : MonoBehaviour
     public Camera mainCamera;
     public InputMaster inputMaster;
 
+    public GameObject itemUIPrefab;
+    public InventoryUI inventoryUI;
+
     private void OnEnable()
     {
         inputMaster.Enable();
+        inputMaster.Player.Enable();
+        inputMaster.EquipmentGUI.Disable();
+        inputMaster.PickupGUI.Disable();
     }
 
     private void OnDisable()

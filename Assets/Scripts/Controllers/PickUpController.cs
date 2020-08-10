@@ -6,10 +6,11 @@ public class PickUpController : MonoBehaviour
 {
     public PlayerController playerController;
     public AudioClip ammoPickupSound;
+    public InventoryUI pickupUI;
 
 
-    private int collisionCount = 0;
-    private List<Collider> colliders = new List<Collider>();
+    private bool isListenerActive = false;
+    private List<Item> items = new List<Item>();
     private InputMaster inputMaster;
 
     private void Start()
@@ -19,28 +20,20 @@ public class PickUpController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) 
     {
-        if (other.gameObject.CompareTag("Weapon"))
-        {
-            collisionCount++;
-            colliders.Add(other);
-            if (collisionCount == 1)
-                StartCoroutine("UseWeaponListener");
-            Debug.Log("In range");
-        }
         if (other.gameObject.CompareTag("Ammo"))
         {
             AmmoBox ammoBox = other.gameObject.GetComponent<AmmoBox>();
-            int maxAmmo = playerController.maxAmmo[ammoBox.ammoType];
-            if (playerController.currentAmmo[ammoBox.ammoType] >= maxAmmo)
+            int maxAmmo = playerController.maxAmmo[(int)ammoBox.ammoType];
+            if (playerController.currentAmmo[(int)ammoBox.ammoType] >= maxAmmo)
                 return;
             playerController.audioSource.PlayOneShot(ammoPickupSound);
 
-            playerController.currentAmmo[ammoBox.ammoType] += ammoBox.ammoCount;
+            playerController.currentAmmo[(int)ammoBox.ammoType] += ammoBox.ammoCount;
 
-            if (playerController.currentAmmo[ammoBox.ammoType] > maxAmmo)
+            if (playerController.currentAmmo[(int)ammoBox.ammoType] > maxAmmo)
             {
-                ammoBox.ammoCount = playerController.currentAmmo[ammoBox.ammoType] - maxAmmo;
-                playerController.currentAmmo[ammoBox.ammoType] = maxAmmo;
+                ammoBox.ammoCount = playerController.currentAmmo[(int)ammoBox.ammoType] - maxAmmo;
+                playerController.currentAmmo[(int)ammoBox.ammoType] = maxAmmo;
             }
             else
             {
@@ -48,28 +41,42 @@ public class PickUpController : MonoBehaviour
             }
             playerController.UpdateAmmoUI();
         }
+        else
+        {
+            Item item = other.gameObject.GetComponentInParent<Item>();
+            items.Add(item);
+            pickupUI.AddItemToInventory(item);
+            if (isListenerActive == false)
+            {
+                isListenerActive = true;
+                StartCoroutine(UseItemListener());
+            }
+        }
     }
 
     private void OnTriggerExit(Collider other) 
     {
-        if (other.gameObject.CompareTag("Weapon"))
-        {
-            Debug.Log("Out of range");
-            collisionCount--;
-            colliders.Remove(other);
-        }        
+        if (other.gameObject.CompareTag("Ammo"))
+            return;
+        Item item = other.gameObject.GetComponentInParent<Item>();
+        RemoveItemFromRange(item);
     }
 
-    IEnumerator UseWeaponListener()
+    public void RemoveItemFromRange(Item item)
     {
-        while (collisionCount > 0)
+        items.Remove(item);
+        pickupUI.RemoveItemFromInventory(item);
+        if (items.Count <= 0)
+            isListenerActive = false;
+    }
+
+    IEnumerator UseItemListener()
+    {
+        while (isListenerActive)
         {
             if (inputMaster.Player.Use.triggered)
             {
-                playerController.PickUpWeapon(colliders[0].gameObject.GetComponentInParent<Weapon>());
-
-                collisionCount--;
-                colliders.RemoveAt(0);
+                pickupUI.ToggleInventoryGUI();
             }
             yield return null;
         }

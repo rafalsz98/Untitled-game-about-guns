@@ -34,10 +34,9 @@ public class PlayerController : MonoBehaviour
 
 
     #region Ammo region
-    public static int ammoTypesCount = 4;
     [Header("Ammo settings")]
+    public static int ammoTypesCount = System.Enum.GetNames(typeof(AmmoType)).Length;
     public int[] currentAmmo = new int[ammoTypesCount];
-    [Tooltip("0 - Pistol, 1 - Shotgun, 2 - Automatic, 3 - Sniper")]
     public int[] maxAmmo = new int[ammoTypesCount];
     #endregion
 
@@ -141,7 +140,7 @@ public class PlayerController : MonoBehaviour
         if (!isReloading && inputMaster.Player.AttackLeft.triggered && Time.time >= nextTimeToFire)
         {
             nextTimeToFire = Time.time + weapon1.rateOfFire;
-            if (weapon1.isGun)
+            if (weapon1.type == ItemType.Gun)
             {
                 weapon1.Shoot(this);
                 UpdateAmmoUI();
@@ -154,7 +153,7 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         #region Reload
-        if (!isReloading && inputMaster.Player.Reload.triggered && weapon1.isGun)
+        if (!isReloading && inputMaster.Player.Reload.triggered && weapon1.type == ItemType.Gun)
         {
             StartCoroutine("ReloadUtil");
         }
@@ -205,6 +204,12 @@ public class PlayerController : MonoBehaviour
             }
         }
         #endregion
+
+
+        if (inputMaster.Player.DEBUG.triggered)
+        {
+            Debug.Log(weapon1.GetType() == typeof(Weapon));
+        }
     }
 
     private void FixedUpdate()
@@ -216,20 +221,6 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    // Swaps secondary weapon with primary
-    public void SwapWeapon()
-    {
-        isReloading = false;
-        audioSource.Stop();
-        weapon2.weaponPrefab.SetActive(true);
-        weapon1.weaponPrefab.SetActive(false);
-        Weapon tmp = weapon1;
-        weapon1 = weapon2;
-        weapon2 = tmp;
-
-        UpdateAmmoUI();
-    }
-
     public void PickUpWeapon(Weapon weapon)
     {
         if (weapon1 != fistsPrefab)
@@ -239,15 +230,15 @@ public class PlayerController : MonoBehaviour
         weapon.triggerArea.SetActive(false);
 
         // Gravity can't affect it in hand
-        weapon.weaponPrefab.GetComponent<Rigidbody>().isKinematic = true;
+        weapon.gameObject.GetComponent<Rigidbody>().isKinematic = true;
 
         // Disable collision
-        weapon.weaponPrefab.GetComponent<BoxCollider>().enabled = false;
+        weapon.gameObject.GetComponent<BoxCollider>().enabled = false;
 
         // Setting new location
-        weapon.weaponPrefab.transform.SetParent(handObject.transform);
-        weapon.weaponPrefab.transform.localPosition = weapon.handOffset;
-        weapon.weaponPrefab.transform.localRotation = Quaternion.Euler(
+        weapon.gameObject.transform.SetParent(handObject.transform);
+        weapon.gameObject.transform.localPosition = weapon.handOffset;
+        weapon.gameObject.transform.localRotation = Quaternion.Euler(
             weapon.handRotation.x,
             weapon.handRotation.y,
             weapon.handRotation.z
@@ -269,13 +260,13 @@ public class PlayerController : MonoBehaviour
 
         UpdateAmmoUI();
         
-        dropped.weaponPrefab.transform.SetParent(GameManager.instance.map.transform);
-        dropped.weaponPrefab.transform.position = transform.position + dropOffset;
-        dropped.weaponPrefab.transform.rotation = Random.rotation;
-        Rigidbody _droppedRb = dropped.weaponPrefab.GetComponent<Rigidbody>();
+        dropped.gameObject.transform.SetParent(GameManager.instance.map.transform);
+        dropped.gameObject.transform.position = transform.position + dropOffset;
+        dropped.gameObject.transform.rotation = Random.rotation;
+        Rigidbody _droppedRb = dropped.gameObject.GetComponent<Rigidbody>();
 
         // Enable collision
-        dropped.weaponPrefab.GetComponent<BoxCollider>().enabled = true;
+        dropped.gameObject.GetComponent<BoxCollider>().enabled = true;
 
         // Gravity now can interact with weapon
         _droppedRb.isKinematic = false;
@@ -289,10 +280,10 @@ public class PlayerController : MonoBehaviour
 
     public void UpdateAmmoUI()
     {
-        if (weapon1.isGun)
+        if (weapon1.type == ItemType.Gun)
         {
             Gun gun = (Gun)weapon1;
-            ammoBar.ChangeAmmo(gun.ammoInMag, currentAmmo[gun.ammoType]);
+            ammoBar.ChangeAmmo(gun.ammoInMag, currentAmmo[(int)gun.ammoType]);
         }
         else
         {
@@ -317,7 +308,7 @@ public class PlayerController : MonoBehaviour
     public IEnumerator ReloadUtil()
     {
         Gun gun = (Gun)weapon1;
-        if (currentAmmo[gun.ammoType] <= 0)
+        if (currentAmmo[(int)gun.ammoType] <= 0)
         {
             Debug.Log("No ammo");
         }
@@ -331,8 +322,8 @@ public class PlayerController : MonoBehaviour
             // If nobody swapped weapons
             if (isReloading)
             {
-                gun.Reload(ref currentAmmo[gun.ammoType]);
-                ammoBar.ChangeAmmo(gun.ammoInMag, currentAmmo[gun.ammoType]);
+                gun.Reload(ref currentAmmo[(int)gun.ammoType]);
+                ammoBar.ChangeAmmo(gun.ammoInMag, currentAmmo[(int)gun.ammoType]);
                 Debug.Log("reloaded");
             }
             isReloading = false;

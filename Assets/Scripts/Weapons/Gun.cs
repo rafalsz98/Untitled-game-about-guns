@@ -5,10 +5,10 @@ using UnityEngine.VFX;
 
 public class Gun : Weapon
 {
+    [Header("Gun class proporties")]
     public int clipSize;
     public int ammoInMag = 0;
-    [Tooltip("0 - Pistol, 1 - Shotgun, 2 - Automatic, 3 - Sniper"), Range(0, 3)]
-    public int ammoType;
+    public AmmoType ammoType;
     public float reloadTime;
     public int range = 30;
     public AudioClip shootingSound;
@@ -24,7 +24,7 @@ public class Gun : Weapon
     private void Start() 
     {
         shotLight = GetComponentInChildren<Light>();
-        isGun = true;
+        type = ItemType.Gun;
         audioSource = GameManager.instance.audioSourcePlayer;
     }
 

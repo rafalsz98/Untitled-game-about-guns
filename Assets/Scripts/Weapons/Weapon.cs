@@ -2,18 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Weapon : MonoBehaviour
+public abstract class Weapon : Item
 {
-    public string weaponName;
+    [Header("Weapon class proporties")]
     public int damage;
-    public GameObject weaponPrefab;
-    public GameObject triggerArea;
     public Vector3 handOffset;
     public Vector3 handRotation;
     public int chanceToCancelAttack;
 
-    [HideInInspector]
-    public bool isGun;
     [Tooltip("Rate of fire in seconds")]
     public float rateOfFire;
 

@@ -97,6 +97,22 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Equipment"",
+                    ""type"": ""Button"",
+                    ""id"": ""e5b7e2fc-07a9-4b97-a714-6a8c85f97acd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""DEBUG"",
+                    ""type"": ""Button"",
+                    ""id"": ""05483c74-58cf-4f09-8e6a-76be1e5260e5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
                 }
             ],
             ""bindings"": [
@@ -253,6 +269,153 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1659ec6d-8b56-406b-a211-652440f560bc"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Equipment"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e223d075-7370-4e4e-8081-75e46a939183"",
+                    ""path"": ""<Keyboard>/slash"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""DEBUG"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""EquipmentGUI"",
+            ""id"": ""6799414f-1ec8-432c-a290-b231d7570d0c"",
+            ""actions"": [
+                {
+                    ""name"": ""Exit"",
+                    ""type"": ""Button"",
+                    ""id"": ""7f82bcb9-bd0c-44d8-9073-cab6bcaf52e4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""ed756b9c-9838-4620-9637-3114111950fa"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c8932af6-5768-4628-bb6f-173865c89a01"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""PickupGUI"",
+            ""id"": ""08dd1f33-9601-4668-8e6f-87ffdc2af930"",
+            ""actions"": [
+                {
+                    ""name"": ""Exit"",
+                    ""type"": ""Button"",
+                    ""id"": ""9f1e8eaf-45fa-4a35-813d-b31ab3165988"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""TakeAll"",
+                    ""type"": ""Button"",
+                    ""id"": ""fdc04229-8061-48ea-8d44-8c104604ccca"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Take"",
+                    ""type"": ""Button"",
+                    ""id"": ""3ac5f2eb-243c-4554-bde7-945657a37276"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""ebc55513-4a8b-433b-b6c7-68205a364c2f"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""TakeAll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""00dbdcde-3a00-407d-9311-ed148358fc88"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""589b415d-c3a6-453f-bb56-97b649720aa0"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9a34a0e4-ce0f-4584-af09-da8d8cbeaae9"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Take"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""57915e9f-f325-4206-b3e5-84393b6e113e"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Take"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -288,6 +451,16 @@ public class @InputMaster : IInputActionCollection, IDisposable
         m_Player_CameraRight = m_Player.FindAction("CameraRight", throwIfNotFound: true);
         m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
         m_Player_Shove = m_Player.FindAction("Shove", throwIfNotFound: true);
+        m_Player_Equipment = m_Player.FindAction("Equipment", throwIfNotFound: true);
+        m_Player_DEBUG = m_Player.FindAction("DEBUG", throwIfNotFound: true);
+        // EquipmentGUI
+        m_EquipmentGUI = asset.FindActionMap("EquipmentGUI", throwIfNotFound: true);
+        m_EquipmentGUI_Exit = m_EquipmentGUI.FindAction("Exit", throwIfNotFound: true);
+        // PickupGUI
+        m_PickupGUI = asset.FindActionMap("PickupGUI", throwIfNotFound: true);
+        m_PickupGUI_Exit = m_PickupGUI.FindAction("Exit", throwIfNotFound: true);
+        m_PickupGUI_TakeAll = m_PickupGUI.FindAction("TakeAll", throwIfNotFound: true);
+        m_PickupGUI_Take = m_PickupGUI.FindAction("Take", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -347,6 +520,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_CameraRight;
     private readonly InputAction m_Player_Reload;
     private readonly InputAction m_Player_Shove;
+    private readonly InputAction m_Player_Equipment;
+    private readonly InputAction m_Player_DEBUG;
     public struct PlayerActions
     {
         private @InputMaster m_Wrapper;
@@ -361,6 +536,8 @@ public class @InputMaster : IInputActionCollection, IDisposable
         public InputAction @CameraRight => m_Wrapper.m_Player_CameraRight;
         public InputAction @Reload => m_Wrapper.m_Player_Reload;
         public InputAction @Shove => m_Wrapper.m_Player_Shove;
+        public InputAction @Equipment => m_Wrapper.m_Player_Equipment;
+        public InputAction @DEBUG => m_Wrapper.m_Player_DEBUG;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -400,6 +577,12 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Shove.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShove;
                 @Shove.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShove;
                 @Shove.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShove;
+                @Equipment.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipment;
+                @Equipment.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipment;
+                @Equipment.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipment;
+                @DEBUG.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDEBUG;
+                @DEBUG.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDEBUG;
+                @DEBUG.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDEBUG;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -434,10 +617,98 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Shove.started += instance.OnShove;
                 @Shove.performed += instance.OnShove;
                 @Shove.canceled += instance.OnShove;
+                @Equipment.started += instance.OnEquipment;
+                @Equipment.performed += instance.OnEquipment;
+                @Equipment.canceled += instance.OnEquipment;
+                @DEBUG.started += instance.OnDEBUG;
+                @DEBUG.performed += instance.OnDEBUG;
+                @DEBUG.canceled += instance.OnDEBUG;
             }
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
+
+    // EquipmentGUI
+    private readonly InputActionMap m_EquipmentGUI;
+    private IEquipmentGUIActions m_EquipmentGUIActionsCallbackInterface;
+    private readonly InputAction m_EquipmentGUI_Exit;
+    public struct EquipmentGUIActions
+    {
+        private @InputMaster m_Wrapper;
+        public EquipmentGUIActions(@InputMaster wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Exit => m_Wrapper.m_EquipmentGUI_Exit;
+        public InputActionMap Get() { return m_Wrapper.m_EquipmentGUI; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(EquipmentGUIActions set) { return set.Get(); }
+        public void SetCallbacks(IEquipmentGUIActions instance)
+        {
+            if (m_Wrapper.m_EquipmentGUIActionsCallbackInterface != null)
+            {
+                @Exit.started -= m_Wrapper.m_EquipmentGUIActionsCallbackInterface.OnExit;
+                @Exit.performed -= m_Wrapper.m_EquipmentGUIActionsCallbackInterface.OnExit;
+                @Exit.canceled -= m_Wrapper.m_EquipmentGUIActionsCallbackInterface.OnExit;
+            }
+            m_Wrapper.m_EquipmentGUIActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Exit.started += instance.OnExit;
+                @Exit.performed += instance.OnExit;
+                @Exit.canceled += instance.OnExit;
+            }
+        }
+    }
+    public EquipmentGUIActions @EquipmentGUI => new EquipmentGUIActions(this);
+
+    // PickupGUI
+    private readonly InputActionMap m_PickupGUI;
+    private IPickupGUIActions m_PickupGUIActionsCallbackInterface;
+    private readonly InputAction m_PickupGUI_Exit;
+    private readonly InputAction m_PickupGUI_TakeAll;
+    private readonly InputAction m_PickupGUI_Take;
+    public struct PickupGUIActions
+    {
+        private @InputMaster m_Wrapper;
+        public PickupGUIActions(@InputMaster wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Exit => m_Wrapper.m_PickupGUI_Exit;
+        public InputAction @TakeAll => m_Wrapper.m_PickupGUI_TakeAll;
+        public InputAction @Take => m_Wrapper.m_PickupGUI_Take;
+        public InputActionMap Get() { return m_Wrapper.m_PickupGUI; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PickupGUIActions set) { return set.Get(); }
+        public void SetCallbacks(IPickupGUIActions instance)
+        {
+            if (m_Wrapper.m_PickupGUIActionsCallbackInterface != null)
+            {
+                @Exit.started -= m_Wrapper.m_PickupGUIActionsCallbackInterface.OnExit;
+                @Exit.performed -= m_Wrapper.m_PickupGUIActionsCallbackInterface.OnExit;
+                @Exit.canceled -= m_Wrapper.m_PickupGUIActionsCallbackInterface.OnExit;
+                @TakeAll.started -= m_Wrapper.m_PickupGUIActionsCallbackInterface.OnTakeAll;
+                @TakeAll.performed -= m_Wrapper.m_PickupGUIActionsCallbackInterface.OnTakeAll;
+                @TakeAll.canceled -= m_Wrapper.m_PickupGUIActionsCallbackInterface.OnTakeAll;
+                @Take.started -= m_Wrapper.m_PickupGUIActionsCallbackInterface.OnTake;
+                @Take.performed -= m_Wrapper.m_PickupGUIActionsCallbackInterface.OnTake;
+                @Take.canceled -= m_Wrapper.m_PickupGUIActionsCallbackInterface.OnTake;
+            }
+            m_Wrapper.m_PickupGUIActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Exit.started += instance.OnExit;
+                @Exit.performed += instance.OnExit;
+                @Exit.canceled += instance.OnExit;
+                @TakeAll.started += instance.OnTakeAll;
+                @TakeAll.performed += instance.OnTakeAll;
+                @TakeAll.canceled += instance.OnTakeAll;
+                @Take.started += instance.OnTake;
+                @Take.performed += instance.OnTake;
+                @Take.canceled += instance.OnTake;
+            }
+        }
+    }
+    public PickupGUIActions @PickupGUI => new PickupGUIActions(this);
     private int m_KeybordandmouseSchemeIndex = -1;
     public InputControlScheme KeybordandmouseScheme
     {
@@ -459,5 +730,17 @@ public class @InputMaster : IInputActionCollection, IDisposable
         void OnCameraRight(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
         void OnShove(InputAction.CallbackContext context);
+        void OnEquipment(InputAction.CallbackContext context);
+        void OnDEBUG(InputAction.CallbackContext context);
+    }
+    public interface IEquipmentGUIActions
+    {
+        void OnExit(InputAction.CallbackContext context);
+    }
+    public interface IPickupGUIActions
+    {
+        void OnExit(InputAction.CallbackContext context);
+        void OnTakeAll(InputAction.CallbackContext context);
+        void OnTake(InputAction.CallbackContext context);
     }
 }
