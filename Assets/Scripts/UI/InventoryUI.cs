@@ -21,10 +21,11 @@ public class InventoryUI : MonoBehaviour
 
     [HideInInspector]
     public Item currentlySelectedItem = null;
+    private ItemUI currentlySelectedItemUI = null;
+    private int currentlySelectedID = -1;
 
     private InputMaster inputMaster;
     //private Dictionary<Item, ItemUI> items = new Dictionary<Item, ItemUI>();
-    private ItemUI currentlySelectedItemUI = null;
 
     private List<ItemStruct> items = new List<ItemStruct>();
 
@@ -69,6 +70,7 @@ public class InventoryUI : MonoBehaviour
                 currentlySelectedItemUI.ToggleSelection();
                 currentlySelectedItemUI = null;
                 currentlySelectedItem = null;
+                currentlySelectedID = -1;
                 stats.text = "";
                 desc.text = "";
                 descItemName.text = "";
@@ -93,7 +95,10 @@ public class InventoryUI : MonoBehaviour
 
     public void RemoveItemFromInventory(Item item)
     {
-        ItemStruct its = findItemStruct(item);
+        int id = findItemStruct(item);
+        if (id == -1)
+            return;
+        ItemStruct its = items[id];
         if (its.itemUI)
         {
             Destroy(its.itemUI.gameObject);
@@ -103,31 +108,42 @@ public class InventoryUI : MonoBehaviour
 
     public void ChangeItemQuantity(Item item, int newQuantity)
     {
-        ItemStruct its = findItemStruct(item);
-        item.quantity = newQuantity;
+        int id = findItemStruct(item);
+        if (id == -1)
+            return;
+        ItemStruct its = items[id];
+        its.item.quantity = newQuantity;
         its.itemUI.ChangeItemQuantity(newQuantity.ToString());
     }
 
-    private ItemStruct findItemStruct(Item item)
+    private int findItemStruct(Item item)
     {
-        ItemStruct its = items.Find((ItemStruct x) => x.item == item);
-        return its;
+        int id = items.FindIndex((ItemStruct x) => x.item == item);
+        return id;
     }
+
+    public void Navigate(int direction)
+    {
+        if (items.Count <= 0)
+            return;
+        currentlySelectedID += direction;
+        if (currentlySelectedID < 0)
+            currentlySelectedID = items.Count - 1;
+        else if (currentlySelectedID >= items.Count)
+            currentlySelectedID = 0;
+
+        selectItem(currentlySelectedID);
+    }
+
 
     public void SelectItem(Item item)
     {
         selectItem(findItemStruct(item));
     }
 
-    public void SelectItem(int id)
+    private void selectItem(int id)
     {
-        if (id <= 0 || id >= items.Count)
-            return;
-        selectItem(items[id]);
-    }
-
-    private void selectItem(ItemStruct its)
-    {
+        ItemStruct its = items[id];
         if (!its.itemUI || currentlySelectedItemUI == its.itemUI)
             return;
         if (currentlySelectedItemUI)
@@ -136,6 +152,7 @@ public class InventoryUI : MonoBehaviour
         its.itemUI.ToggleSelection();
         currentlySelectedItemUI = its.itemUI;
         currentlySelectedItem = its.item;
+        currentlySelectedID = id;
 
 
         descImage.enabled = true;
@@ -147,6 +164,4 @@ public class InventoryUI : MonoBehaviour
         else
             stats.text = "";
     }
-
-    //public List<Item> GetItems()
 }

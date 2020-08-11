@@ -304,7 +304,31 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""id"": ""7f82bcb9-bd0c-44d8-9073-cab6bcaf52e4"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Use"",
+                    ""type"": ""Button"",
+                    ""id"": ""261c53fe-4485-43f3-b2f4-98b7dff7319d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Drop"",
+                    ""type"": ""Button"",
+                    ""id"": ""e30cefcb-2565-4fac-855a-1754d0ac60a0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Navigate"",
+                    ""type"": ""Value"",
+                    ""id"": ""ae717fee-a0ce-423a-bb57-3e12e0529998"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
                 }
             ],
             ""bindings"": [
@@ -329,6 +353,94 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""action"": ""Exit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ddac3ab1-ead0-4afb-9a3a-72c8ba91a69c"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Use"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""306dbd22-d3e6-4a55-8c85-aaf0851e10ca"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Drop"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""ws"",
+                    ""id"": ""dd0eda42-b2a4-4fd9-99b5-3f29c510eaeb"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""57b902f3-818a-4b27-be26-4ae4b8d044de"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""b00d63e7-3146-46ed-a5bb-8a062c4a85fe"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""arrows"",
+                    ""id"": ""05eb7ce4-f34c-4e4e-bd25-0cf9763249ee"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""e42022ce-e776-46a6-8665-d74c12bd8808"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""4752ab0d-b6f2-4b2d-b71a-50b6b97c8afa"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -357,6 +469,14 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""type"": ""Button"",
                     ""id"": ""3ac5f2eb-243c-4554-bde7-945657a37276"",
                     ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Navigate"",
+                    ""type"": ""Value"",
+                    ""id"": ""06213135-c888-440b-90aa-b0e3be667ac9"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": ""Press""
                 }
@@ -416,6 +536,72 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""action"": ""Take"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""ws"",
+                    ""id"": ""889a0dfc-db6e-40b3-bab4-b083294783b4"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""6d153a3f-f364-4857-8177-8fcbb1c4a368"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""93070262-e898-486b-a764-d359544e3351"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""arrows"",
+                    ""id"": ""70a71be7-41cc-445c-aedd-ebb6c11792f8"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""107d322c-29f7-4ffe-bb4e-e44d61826ffd"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""aff52220-c854-4556-8569-48628afb2a4c"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -456,11 +642,15 @@ public class @InputMaster : IInputActionCollection, IDisposable
         // EquipmentGUI
         m_EquipmentGUI = asset.FindActionMap("EquipmentGUI", throwIfNotFound: true);
         m_EquipmentGUI_Exit = m_EquipmentGUI.FindAction("Exit", throwIfNotFound: true);
+        m_EquipmentGUI_Use = m_EquipmentGUI.FindAction("Use", throwIfNotFound: true);
+        m_EquipmentGUI_Drop = m_EquipmentGUI.FindAction("Drop", throwIfNotFound: true);
+        m_EquipmentGUI_Navigate = m_EquipmentGUI.FindAction("Navigate", throwIfNotFound: true);
         // PickupGUI
         m_PickupGUI = asset.FindActionMap("PickupGUI", throwIfNotFound: true);
         m_PickupGUI_Exit = m_PickupGUI.FindAction("Exit", throwIfNotFound: true);
         m_PickupGUI_TakeAll = m_PickupGUI.FindAction("TakeAll", throwIfNotFound: true);
         m_PickupGUI_Take = m_PickupGUI.FindAction("Take", throwIfNotFound: true);
+        m_PickupGUI_Navigate = m_PickupGUI.FindAction("Navigate", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -632,11 +822,17 @@ public class @InputMaster : IInputActionCollection, IDisposable
     private readonly InputActionMap m_EquipmentGUI;
     private IEquipmentGUIActions m_EquipmentGUIActionsCallbackInterface;
     private readonly InputAction m_EquipmentGUI_Exit;
+    private readonly InputAction m_EquipmentGUI_Use;
+    private readonly InputAction m_EquipmentGUI_Drop;
+    private readonly InputAction m_EquipmentGUI_Navigate;
     public struct EquipmentGUIActions
     {
         private @InputMaster m_Wrapper;
         public EquipmentGUIActions(@InputMaster wrapper) { m_Wrapper = wrapper; }
         public InputAction @Exit => m_Wrapper.m_EquipmentGUI_Exit;
+        public InputAction @Use => m_Wrapper.m_EquipmentGUI_Use;
+        public InputAction @Drop => m_Wrapper.m_EquipmentGUI_Drop;
+        public InputAction @Navigate => m_Wrapper.m_EquipmentGUI_Navigate;
         public InputActionMap Get() { return m_Wrapper.m_EquipmentGUI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -649,6 +845,15 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Exit.started -= m_Wrapper.m_EquipmentGUIActionsCallbackInterface.OnExit;
                 @Exit.performed -= m_Wrapper.m_EquipmentGUIActionsCallbackInterface.OnExit;
                 @Exit.canceled -= m_Wrapper.m_EquipmentGUIActionsCallbackInterface.OnExit;
+                @Use.started -= m_Wrapper.m_EquipmentGUIActionsCallbackInterface.OnUse;
+                @Use.performed -= m_Wrapper.m_EquipmentGUIActionsCallbackInterface.OnUse;
+                @Use.canceled -= m_Wrapper.m_EquipmentGUIActionsCallbackInterface.OnUse;
+                @Drop.started -= m_Wrapper.m_EquipmentGUIActionsCallbackInterface.OnDrop;
+                @Drop.performed -= m_Wrapper.m_EquipmentGUIActionsCallbackInterface.OnDrop;
+                @Drop.canceled -= m_Wrapper.m_EquipmentGUIActionsCallbackInterface.OnDrop;
+                @Navigate.started -= m_Wrapper.m_EquipmentGUIActionsCallbackInterface.OnNavigate;
+                @Navigate.performed -= m_Wrapper.m_EquipmentGUIActionsCallbackInterface.OnNavigate;
+                @Navigate.canceled -= m_Wrapper.m_EquipmentGUIActionsCallbackInterface.OnNavigate;
             }
             m_Wrapper.m_EquipmentGUIActionsCallbackInterface = instance;
             if (instance != null)
@@ -656,6 +861,15 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Exit.started += instance.OnExit;
                 @Exit.performed += instance.OnExit;
                 @Exit.canceled += instance.OnExit;
+                @Use.started += instance.OnUse;
+                @Use.performed += instance.OnUse;
+                @Use.canceled += instance.OnUse;
+                @Drop.started += instance.OnDrop;
+                @Drop.performed += instance.OnDrop;
+                @Drop.canceled += instance.OnDrop;
+                @Navigate.started += instance.OnNavigate;
+                @Navigate.performed += instance.OnNavigate;
+                @Navigate.canceled += instance.OnNavigate;
             }
         }
     }
@@ -667,6 +881,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
     private readonly InputAction m_PickupGUI_Exit;
     private readonly InputAction m_PickupGUI_TakeAll;
     private readonly InputAction m_PickupGUI_Take;
+    private readonly InputAction m_PickupGUI_Navigate;
     public struct PickupGUIActions
     {
         private @InputMaster m_Wrapper;
@@ -674,6 +889,7 @@ public class @InputMaster : IInputActionCollection, IDisposable
         public InputAction @Exit => m_Wrapper.m_PickupGUI_Exit;
         public InputAction @TakeAll => m_Wrapper.m_PickupGUI_TakeAll;
         public InputAction @Take => m_Wrapper.m_PickupGUI_Take;
+        public InputAction @Navigate => m_Wrapper.m_PickupGUI_Navigate;
         public InputActionMap Get() { return m_Wrapper.m_PickupGUI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -692,6 +908,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Take.started -= m_Wrapper.m_PickupGUIActionsCallbackInterface.OnTake;
                 @Take.performed -= m_Wrapper.m_PickupGUIActionsCallbackInterface.OnTake;
                 @Take.canceled -= m_Wrapper.m_PickupGUIActionsCallbackInterface.OnTake;
+                @Navigate.started -= m_Wrapper.m_PickupGUIActionsCallbackInterface.OnNavigate;
+                @Navigate.performed -= m_Wrapper.m_PickupGUIActionsCallbackInterface.OnNavigate;
+                @Navigate.canceled -= m_Wrapper.m_PickupGUIActionsCallbackInterface.OnNavigate;
             }
             m_Wrapper.m_PickupGUIActionsCallbackInterface = instance;
             if (instance != null)
@@ -705,6 +924,9 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Take.started += instance.OnTake;
                 @Take.performed += instance.OnTake;
                 @Take.canceled += instance.OnTake;
+                @Navigate.started += instance.OnNavigate;
+                @Navigate.performed += instance.OnNavigate;
+                @Navigate.canceled += instance.OnNavigate;
             }
         }
     }
@@ -736,11 +958,15 @@ public class @InputMaster : IInputActionCollection, IDisposable
     public interface IEquipmentGUIActions
     {
         void OnExit(InputAction.CallbackContext context);
+        void OnUse(InputAction.CallbackContext context);
+        void OnDrop(InputAction.CallbackContext context);
+        void OnNavigate(InputAction.CallbackContext context);
     }
     public interface IPickupGUIActions
     {
         void OnExit(InputAction.CallbackContext context);
         void OnTakeAll(InputAction.CallbackContext context);
         void OnTake(InputAction.CallbackContext context);
+        void OnNavigate(InputAction.CallbackContext context);
     }
 }

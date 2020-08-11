@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Inventory : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class Inventory : MonoBehaviour
         inputMaster.EquipmentGUI.Exit.performed += (_) => inventoryUI.ToggleInventoryGUI();
         inputMaster.PickupGUI.Exit.performed += (_) => pickupUI.ToggleInventoryGUI();
         inputMaster.PickupGUI.Take.performed += (_) => TakeItem();
+        inputMaster.EquipmentGUI.Navigate.performed += 
+            (InputAction.CallbackContext ctx) => NavigateGUI((int)ctx.ReadValue<float>(), inventoryUI);
         inventoryUI.ChangeCurrentCapacity(currentCapacity);
         inventoryUI.ChangeMaxCapacity(maxCapacity);
     }
@@ -68,7 +71,7 @@ public class Inventory : MonoBehaviour
             else
             {
                 currentCapacity++;
-                inventoryUI.ChangeCurrentCapacity(currentQuantity);
+                inventoryUI.ChangeCurrentCapacity(currentCapacity);
                 inventoryUI.AddItemToInventory(item);
                 items.Add(item);
                 pickUpController.RemoveItemFromRange(item);
@@ -77,4 +80,8 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    private void NavigateGUI(int direction, InventoryUI GUI)
+    {
+        GUI.Navigate(direction);
+    }
 }
