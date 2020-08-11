@@ -103,7 +103,10 @@ public class InventoryUI : MonoBehaviour
         {
             Destroy(its.itemUI.gameObject);
             items.Remove(its);
+            selectItem(id);
         }
+        if (items.Count <= 0 && isPickup)
+            ToggleInventoryGUI();
     }
 
     public void ChangeItemQuantity(Item item, int newQuantity)
@@ -143,6 +146,8 @@ public class InventoryUI : MonoBehaviour
 
     private void selectItem(int id)
     {
+        if (id < 0 || id >= items.Count)
+            return;
         ItemStruct its = items[id];
         if (!its.itemUI || currentlySelectedItemUI == its.itemUI)
             return;

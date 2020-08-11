@@ -23,10 +23,12 @@ public class Inventory : MonoBehaviour
         inputMaster = GameManager.instance.inputMaster;
         inputMaster.Player.Equipment.performed += (_) => inventoryUI.ToggleInventoryGUI();
         inputMaster.EquipmentGUI.Exit.performed += (_) => inventoryUI.ToggleInventoryGUI();
-        inputMaster.PickupGUI.Exit.performed += (_) => pickupUI.ToggleInventoryGUI();
-        inputMaster.PickupGUI.Take.performed += (_) => TakeItem();
         inputMaster.EquipmentGUI.Navigate.performed += 
             (InputAction.CallbackContext ctx) => NavigateGUI((int)ctx.ReadValue<float>(), inventoryUI);
+        inputMaster.PickupGUI.Exit.performed += (_) => pickupUI.ToggleInventoryGUI();
+        inputMaster.PickupGUI.Take.performed += (_) => TakeItem();
+        inputMaster.PickupGUI.Navigate.performed +=
+            (InputAction.CallbackContext ctx) => NavigateGUI((int)ctx.ReadValue<float>(), pickupUI);
         inventoryUI.ChangeCurrentCapacity(currentCapacity);
         inventoryUI.ChangeMaxCapacity(maxCapacity);
     }
