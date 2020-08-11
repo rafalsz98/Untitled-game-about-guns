@@ -103,10 +103,8 @@ public class InventoryUI : MonoBehaviour
         {
             Destroy(its.itemUI.gameObject);
             items.Remove(its);
-            selectItem(id);
+            SelectItem(id);
         }
-        if (items.Count <= 0 && isPickup)
-            ToggleInventoryGUI();
     }
 
     public void ChangeItemQuantity(Item item, int newQuantity)
@@ -135,16 +133,20 @@ public class InventoryUI : MonoBehaviour
         else if (currentlySelectedID >= items.Count)
             currentlySelectedID = 0;
 
-        selectItem(currentlySelectedID);
+        SelectItem(currentlySelectedID);
     }
 
+    public int GetItemsCount()
+    {
+        return items.Count;
+    }
 
     public void SelectItem(Item item)
     {
-        selectItem(findItemStruct(item));
+        SelectItem(findItemStruct(item));
     }
 
-    private void selectItem(int id)
+    public void SelectItem(int id)
     {
         if (id < 0 || id >= items.Count)
             return;

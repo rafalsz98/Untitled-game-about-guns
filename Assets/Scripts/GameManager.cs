@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     public GameObject itemUIPrefab;
     public InventoryUI inventoryUI;
 
+
     private void OnEnable()
     {
         inputMaster.Enable();

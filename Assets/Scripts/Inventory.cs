@@ -27,6 +27,7 @@ public class Inventory : MonoBehaviour
             (InputAction.CallbackContext ctx) => NavigateGUI((int)ctx.ReadValue<float>(), inventoryUI);
         inputMaster.PickupGUI.Exit.performed += (_) => pickupUI.ToggleInventoryGUI();
         inputMaster.PickupGUI.Take.performed += (_) => TakeItem();
+        inputMaster.PickupGUI.TakeAll.performed += (_) => TakeAllItems();
         inputMaster.PickupGUI.Navigate.performed +=
             (InputAction.CallbackContext ctx) => NavigateGUI((int)ctx.ReadValue<float>(), pickupUI);
         inventoryUI.ChangeCurrentCapacity(currentCapacity);
@@ -78,7 +79,19 @@ public class Inventory : MonoBehaviour
                 items.Add(item);
                 pickUpController.RemoveItemFromRange(item);
                 item.gameObject.SetActive(false);
+                if (pickupUI.GetItemsCount() <= 0)
+                    pickupUI.ToggleInventoryGUI();
             }
+        }
+    }
+
+    public void TakeAllItems()
+    {
+        int count = pickupUI.GetItemsCount();
+        for (int i = 0; i < count; i++)
+        {
+            pickupUI.SelectItem(0);
+            TakeItem();
         }
     }
 
