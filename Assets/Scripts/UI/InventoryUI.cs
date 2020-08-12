@@ -71,11 +71,11 @@ public class InventoryUI : MonoBehaviour
                 currentlySelectedItemUI = null;
                 currentlySelectedItem = null;
                 currentlySelectedID = -1;
-                stats.text = "";
-                desc.text = "";
-                descItemName.text = "";
-                descImage.enabled = false;
             }
+            stats.text = "";
+            desc.text = "";
+            descItemName.text = "";
+            descImage.enabled = false;
         }
         else
         {
@@ -101,6 +101,12 @@ public class InventoryUI : MonoBehaviour
         ItemStruct its = items[id];
         if (its.itemUI)
         {
+            if (its.itemUI == currentlySelectedItemUI)
+            {
+                currentlySelectedID = -1;
+                currentlySelectedItem = null;
+                currentlySelectedItemUI = null;
+            }
             Destroy(its.itemUI.gameObject);
             items.Remove(its);
             SelectItem(id);

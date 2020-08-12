@@ -13,10 +13,14 @@ public class Gun : Weapon
     public int range = 30;
     public AudioClip shootingSound;
     public AudioClip reloadSound;
-
     public VisualEffect muzzleFlash;
 
+    [HideInInspector]
+    public bool isReloading
+    { get; set; }
 
+
+    private float nextTimeToFire = 0f;
     private AudioSource audioSource;
     private Light shotLight;
     private float lightDuration = .05f;
@@ -26,24 +30,31 @@ public class Gun : Weapon
         shotLight = GetComponentInChildren<Light>();
         type = ItemType.Gun;
         audioSource = GameManager.instance.audioSourcePlayer;
+        isReloading = false;
     }
 
     public override void Shoot(PlayerController controller)
     {
+        if (isReloading || Time.time < nextTimeToFire)
+            return;
+
         if (ammoInMag <= 0)
         {
-            StartCoroutine(controller.ReloadUtil());
+            StartCoroutine(ReloadUtil(controller));
             return;
         }
 
+        nextTimeToFire = Time.time + rateOfFire;
+
         ammoInMag--;
+        controller.UpdateAmmoUI();
         StartCoroutine(ShotLight());
         audioSource.PlayOneShot(shootingSound);
         muzzleFlash.Play();
 
         if (ammoInMag <= 0)
         {
-            StartCoroutine(controller.ReloadUtil());
+            StartCoroutine(ReloadUtil(controller));
             return;
         }
 
@@ -65,20 +76,9 @@ public class Gun : Weapon
 
     }
 
-    public override void Reload(ref int currentAmmo)
+    public override void Reload(PlayerController controller)
     {
-        int needed = clipSize - ammoInMag;
-        if (needed > currentAmmo)
-        {
-            ammoInMag = currentAmmo;
-            currentAmmo = 0;
-        }
-        else
-        {
-            ammoInMag = clipSize;
-            currentAmmo -= needed;
-        }
-        
+        StartCoroutine(ReloadUtil(controller));
     }
 
     IEnumerator ShotLight()
@@ -86,5 +86,37 @@ public class Gun : Weapon
         shotLight.enabled = true;
         yield return new WaitForSeconds(lightDuration);
         shotLight.enabled = false;
+    }
+
+    IEnumerator ReloadUtil(PlayerController controller)
+    {
+        if (controller.currentAmmo[(int)ammoType] <= 0)
+        {
+            Debug.Log("No ammo");
+        }
+        else if (ammoInMag != clipSize && !isReloading)
+        {
+            audioSource.PlayOneShot(reloadSound);
+            isReloading = true;
+
+            yield return new WaitForSeconds(reloadTime);
+
+            if (isReloading)
+            {
+                int needed = clipSize - ammoInMag;
+                if (needed > controller.currentAmmo[(int)ammoType])
+                {
+                    ammoInMag = controller.currentAmmo[(int)ammoType];
+                    controller.currentAmmo[(int)ammoType] = 0;
+                }
+                else
+                {
+                    ammoInMag = clipSize;
+                    controller.currentAmmo[(int)ammoType] -= needed;
+                }
+                isReloading = false;
+                controller.UpdateAmmoUI();
+            }
+        }
     }
 }

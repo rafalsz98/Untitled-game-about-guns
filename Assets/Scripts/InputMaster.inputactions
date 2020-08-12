@@ -46,14 +46,6 @@
                     "interactions": "Press"
                 },
                 {
-                    "name": "Drop",
-                    "type": "Button",
-                    "id": "fc2a802e-4fe5-4002-9973-352d8c9b8108",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Press"
-                },
-                {
                     "name": "CameraLeft",
                     "type": "Button",
                     "id": "759263bf-bea6-4e10-a2e9-3ee3b4762318",
@@ -144,17 +136,6 @@
                     "processors": "",
                     "groups": "Keybord and mouse",
                     "action": "Use",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "3799a152-27df-4c19-8fb6-07644f502895",
-                    "path": "<Keyboard>/g",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keybord and mouse",
-                    "action": "Drop",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

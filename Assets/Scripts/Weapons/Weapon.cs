@@ -19,7 +19,7 @@ public abstract class Weapon : Item
         throw new System.NotSupportedException();
     }
 
-    public virtual void Reload(ref int currentAmmo)
+    public virtual void Reload(PlayerController controller)
     {
         throw new System.NotSupportedException();
     }

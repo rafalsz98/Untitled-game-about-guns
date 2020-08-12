@@ -12,11 +12,11 @@ public class PlayerController : MonoBehaviour
     public float dashCooldown = 1.5f;
     public float shoveCooldown = 3f;
     public int shoveStrength = 3;
-    public float dropStrength = 2f;
     public int maxHealth = 100;
     public float gravity = -9.8f;
-    
+
     [Header("Advanced settings and references")]
+    public Inventory inventory;
     public HealthBar healthBar;
     public AmmoBar ammoBar;
     [Tooltip("Select layer that is a ground in the scene. Player will rotate only if pointing on object with that layer set")]
@@ -42,10 +42,6 @@ public class PlayerController : MonoBehaviour
 
 
     [HideInInspector]
-    public Weapon weapon1;
-    [HideInInspector]
-    public Weapon weapon2;
-    [HideInInspector]
     public AudioSource audioSource;
     private CharacterController characterController;
     private InputMaster inputMaster;
@@ -55,8 +51,6 @@ public class PlayerController : MonoBehaviour
 
     private Camera cam;
     private CameraController cameraController;
-    private float nextTimeToFire = 0f;
-    private bool isReloading = false;
     private bool hasDashed = false;
     private bool hasShoved = false;
     private GameObject handObject;
@@ -74,8 +68,8 @@ public class PlayerController : MonoBehaviour
         cam = GameManager.instance.mainCamera;
         cameraController = cam.GetComponent<CameraController>();
         characterController = GetComponent<CharacterController>();
-        weapon1 = fistsPrefab;
-        weapon2 = fistsPrefab;
+        //weapon1 = fistsPrefab;
+        //weapon2 = fistsPrefab;
         audioSource = GetComponentInChildren<AudioSource>();
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
@@ -137,34 +131,34 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         #region Primary attack / shooting
-        if (!isReloading && inputMaster.Player.AttackLeft.triggered && Time.time >= nextTimeToFire)
+        if (inputMaster.Player.AttackLeft.triggered)
         {
-            nextTimeToFire = Time.time + weapon1.rateOfFire;
-            if (weapon1.type == ItemType.Gun)
+            Weapon activeWeapon = inventory.GetActiveWeapon();
+            if (activeWeapon.type == ItemType.Gun)
             {
-                weapon1.Shoot(this);
-                UpdateAmmoUI();
+                activeWeapon.Shoot(this);
             }
             else
             {
-                weapon1.AttackLeft();
+                activeWeapon.AttackLeft();
             }
         }
         #endregion
 
         #region Reload
-        if (!isReloading && inputMaster.Player.Reload.triggered && weapon1.type == ItemType.Gun)
+        if (inputMaster.Player.Reload.triggered && inventory.GetActiveWeapon().type == ItemType.Gun)
         {
-            StartCoroutine("ReloadUtil");
+            Weapon activeWeapon = inventory.GetActiveWeapon();
+            activeWeapon.Reload(this);
         }
         #endregion
 
-        #region Drop weapon
+/*        #region Drop weapon
         if (inputMaster.Player.Drop.triggered)
         {
             DropCurrentWeapon();
         }
-        #endregion
+        #endregion*/
 
         #region Camera change view
         if (inputMaster.Player.CameraLeft.triggered)
@@ -208,7 +202,6 @@ public class PlayerController : MonoBehaviour
 
         if (inputMaster.Player.DEBUG.triggered)
         {
-            Debug.Log(weapon1.GetType() == typeof(Weapon));
         }
     }
 
@@ -221,7 +214,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    public void PickUpWeapon(Weapon weapon)
+/*    public void PickUpWeapon(Weapon weapon)
     {
         if (weapon1 != fistsPrefab)
             DropCurrentWeapon();
@@ -276,18 +269,19 @@ public class PlayerController : MonoBehaviour
         
         _droppedRb.AddForce(transform.forward * dropStrength, ForceMode.Impulse);
 
-    }
+    }*/
 
     public void UpdateAmmoUI()
     {
-        if (weapon1.type == ItemType.Gun)
+        Weapon activeWeapon = inventory.GetActiveWeapon();
+        if (activeWeapon.type == ItemType.Gun)
         {
-            Gun gun = (Gun)weapon1;
+            Gun gun = (Gun)activeWeapon;
             ammoBar.ChangeAmmo(gun.ammoInMag, currentAmmo[(int)gun.ammoType]);
         }
         else
         {
-            ammoBar.ChangeDurability(((Melee)weapon1).durability);
+            ammoBar.ChangeDurability(((Melee)activeWeapon).durability);
         }
     }
 
@@ -302,34 +296,6 @@ public class PlayerController : MonoBehaviour
 
 
     #region Coroutines
-    // Reload coroutine is started every time user reloads weapon
-    // It is a wrapper for Reload function from Gun class, responsible for
-    // playing sound, animation, time delay and blocking multiple reloads at the same time
-    public IEnumerator ReloadUtil()
-    {
-        Gun gun = (Gun)weapon1;
-        if (currentAmmo[(int)gun.ammoType] <= 0)
-        {
-            Debug.Log("No ammo");
-        }
-        else if (gun.ammoInMag != gun.clipSize)
-        {
-            audioSource.PlayOneShot(gun.reloadSound);
-            isReloading = true;
-            // Play anim
-            yield return new WaitForSeconds(gun.reloadTime);
-
-            // If nobody swapped weapons
-            if (isReloading)
-            {
-                gun.Reload(ref currentAmmo[(int)gun.ammoType]);
-                ammoBar.ChangeAmmo(gun.ammoInMag, currentAmmo[(int)gun.ammoType]);
-                Debug.Log("reloaded");
-            }
-            isReloading = false;
-        }
-    }
-
     // Blocks dash for set amount of time after dashing
     IEnumerator DashCooldown()
     {

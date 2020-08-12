@@ -5,15 +5,22 @@ using UnityEngine.InputSystem;
 
 public class Inventory : MonoBehaviour
 {
-    public InventoryUI inventoryUI;
-    public InventoryUI pickupUI;
-    public PickUpController pickUpController;
+    [Header("Basic setttings")]
+    [Tooltip("Offset added to current position when dropping weapon")]
+    public Vector3 dropOffset;
+    public float dropStrength = 2f;
     public int currentCapacity = 0;
     public int maxCapacity = 0;
 
+    [Header("References")]
+    public InventoryUI inventoryUI;
+    public InventoryUI pickupUI;
+    public PickUpController pickUpController;
 
 
 
+    private const int MAX_WEAPONS = 2;
+    private Weapon[] weapons = new Weapon[MAX_WEAPONS];
     private List<Item> items = new List<Item>();
     private InputMaster inputMaster;
 
@@ -21,19 +28,28 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         inputMaster = GameManager.instance.inputMaster;
+
         inputMaster.Player.Equipment.performed += (_) => inventoryUI.ToggleInventoryGUI();
+
+        inputMaster.EquipmentGUI.Drop.performed += (_) => DropItem();
         inputMaster.EquipmentGUI.Exit.performed += (_) => inventoryUI.ToggleInventoryGUI();
         inputMaster.EquipmentGUI.Navigate.performed += 
             (InputAction.CallbackContext ctx) => NavigateGUI((int)ctx.ReadValue<float>(), inventoryUI);
+        
         inputMaster.PickupGUI.Exit.performed += (_) => pickupUI.ToggleInventoryGUI();
         inputMaster.PickupGUI.Take.performed += (_) => TakeItem();
         inputMaster.PickupGUI.TakeAll.performed += (_) => TakeAllItems();
         inputMaster.PickupGUI.Navigate.performed +=
             (InputAction.CallbackContext ctx) => NavigateGUI((int)ctx.ReadValue<float>(), pickupUI);
+
         inventoryUI.ChangeCurrentCapacity(currentCapacity);
         inventoryUI.ChangeMaxCapacity(maxCapacity);
     }
 
+    public Weapon GetActiveWeapon()
+    {
+        return weapons[0];
+    }
 
     public void TakeItem()
     {
@@ -98,5 +114,37 @@ public class Inventory : MonoBehaviour
     private void NavigateGUI(int direction, InventoryUI GUI)
     {
         GUI.Navigate(direction);
+    }
+
+    public void DropItem()
+    {
+        Item item = inventoryUI.currentlySelectedItem;
+        if (!item)
+            return;
+
+        Rigidbody rb = item.gameObject.GetComponent<Rigidbody>();
+        if (item.type == ItemType.Gun || item.type == ItemType.Melee)
+        {
+            item.gameObject.transform.SetParent(GameManager.instance.map.transform);
+
+            // Enable collision and trigger area
+            item.gameObject.GetComponent<BoxCollider>().enabled = true;
+            item.triggerArea.SetActive(true);
+
+            // Now it will be able to move
+            rb.isKinematic = false;
+
+            // todo: Check if weapon is equipped, if yes then set fists as weapon
+        }
+        item.gameObject.transform.position = transform.position + dropOffset;
+        item.gameObject.transform.rotation = Random.rotation;
+
+        inventoryUI.RemoveItemFromInventory(item);
+        items.Remove(item);
+        currentCapacity--;
+        inventoryUI.ChangeCurrentCapacity(currentCapacity);
+
+        item.gameObject.SetActive(true);
+        rb.AddForce(transform.forward * dropStrength, ForceMode.Impulse);
     }
 }

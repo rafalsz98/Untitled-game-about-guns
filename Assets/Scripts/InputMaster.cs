@@ -59,14 +59,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""interactions"": ""Press""
                 },
                 {
-                    ""name"": ""Drop"",
-                    ""type"": ""Button"",
-                    ""id"": ""fc2a802e-4fe5-4002-9973-352d8c9b8108"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": ""Press""
-                },
-                {
                     ""name"": ""CameraLeft"",
                     ""type"": ""Button"",
                     ""id"": ""759263bf-bea6-4e10-a2e9-3ee3b4762318"",
@@ -157,17 +149,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keybord and mouse"",
                     ""action"": ""Use"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""3799a152-27df-4c19-8fb6-07644f502895"",
-                    ""path"": ""<Keyboard>/g"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keybord and mouse"",
-                    ""action"": ""Drop"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -632,7 +613,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
         m_Player_AttackRight = m_Player.FindAction("AttackRight", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_Use = m_Player.FindAction("Use", throwIfNotFound: true);
-        m_Player_Drop = m_Player.FindAction("Drop", throwIfNotFound: true);
         m_Player_CameraLeft = m_Player.FindAction("CameraLeft", throwIfNotFound: true);
         m_Player_CameraRight = m_Player.FindAction("CameraRight", throwIfNotFound: true);
         m_Player_Reload = m_Player.FindAction("Reload", throwIfNotFound: true);
@@ -705,7 +685,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_AttackRight;
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_Use;
-    private readonly InputAction m_Player_Drop;
     private readonly InputAction m_Player_CameraLeft;
     private readonly InputAction m_Player_CameraRight;
     private readonly InputAction m_Player_Reload;
@@ -721,7 +700,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
         public InputAction @AttackRight => m_Wrapper.m_Player_AttackRight;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @Use => m_Wrapper.m_Player_Use;
-        public InputAction @Drop => m_Wrapper.m_Player_Drop;
         public InputAction @CameraLeft => m_Wrapper.m_Player_CameraLeft;
         public InputAction @CameraRight => m_Wrapper.m_Player_CameraRight;
         public InputAction @Reload => m_Wrapper.m_Player_Reload;
@@ -752,9 +730,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Use.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUse;
                 @Use.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUse;
                 @Use.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUse;
-                @Drop.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDrop;
-                @Drop.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDrop;
-                @Drop.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDrop;
                 @CameraLeft.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraLeft;
                 @CameraLeft.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraLeft;
                 @CameraLeft.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCameraLeft;
@@ -792,9 +767,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
                 @Use.started += instance.OnUse;
                 @Use.performed += instance.OnUse;
                 @Use.canceled += instance.OnUse;
-                @Drop.started += instance.OnDrop;
-                @Drop.performed += instance.OnDrop;
-                @Drop.canceled += instance.OnDrop;
                 @CameraLeft.started += instance.OnCameraLeft;
                 @CameraLeft.performed += instance.OnCameraLeft;
                 @CameraLeft.canceled += instance.OnCameraLeft;
@@ -947,7 +919,6 @@ public class @InputMaster : IInputActionCollection, IDisposable
         void OnAttackRight(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnUse(InputAction.CallbackContext context);
-        void OnDrop(InputAction.CallbackContext context);
         void OnCameraLeft(InputAction.CallbackContext context);
         void OnCameraRight(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
