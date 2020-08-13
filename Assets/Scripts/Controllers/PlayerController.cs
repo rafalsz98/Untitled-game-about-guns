@@ -33,13 +33,6 @@ public class PlayerController : MonoBehaviour
     public Weapon fistsPrefab;
 
 
-    #region Ammo region
-    [Header("Ammo settings")]
-    public static int ammoTypesCount = System.Enum.GetNames(typeof(AmmoType)).Length;
-    public int[] currentAmmo = new int[ammoTypesCount];
-    public int[] maxAmmo = new int[ammoTypesCount];
-    #endregion
-
 
     [HideInInspector]
     public AudioSource audioSource;
@@ -56,6 +49,7 @@ public class PlayerController : MonoBehaviour
     private GameObject handObject;
     private int currentHealth;
     private Animator animator;
+    private Weapon activeWeapon;
 
 
     private float epsilon = 0.05f;
@@ -68,13 +62,13 @@ public class PlayerController : MonoBehaviour
         cam = GameManager.instance.mainCamera;
         cameraController = cam.GetComponent<CameraController>();
         characterController = GetComponent<CharacterController>();
-        //weapon1 = fistsPrefab;
-        //weapon2 = fistsPrefab;
         audioSource = GetComponentInChildren<AudioSource>();
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
         healthBar.SetHealth(maxHealth);
         animator = GetComponentInChildren<Animator>();
+        inventory.onWeaponChange += WeaponChanged;
+        inventory.onAmmoChange += UpdateAmmoUI;
     }
 
     // Update is called once per frame
@@ -133,7 +127,6 @@ public class PlayerController : MonoBehaviour
         #region Primary attack / shooting
         if (inputMaster.Player.AttackLeft.triggered)
         {
-            Weapon activeWeapon = inventory.GetActiveWeapon();
             if (activeWeapon.type == ItemType.Gun)
             {
                 activeWeapon.Shoot(this);
@@ -148,17 +141,9 @@ public class PlayerController : MonoBehaviour
         #region Reload
         if (inputMaster.Player.Reload.triggered && inventory.GetActiveWeapon().type == ItemType.Gun)
         {
-            Weapon activeWeapon = inventory.GetActiveWeapon();
             activeWeapon.Reload(this);
         }
         #endregion
-
-/*        #region Drop weapon
-        if (inputMaster.Player.Drop.triggered)
-        {
-            DropCurrentWeapon();
-        }
-        #endregion*/
 
         #region Camera change view
         if (inputMaster.Player.CameraLeft.triggered)
@@ -214,70 +199,18 @@ public class PlayerController : MonoBehaviour
 
     }
 
-/*    public void PickUpWeapon(Weapon weapon)
+    // Every time active weapon is changed in inventory this method will be called
+    public void WeaponChanged()
     {
-        if (weapon1 != fistsPrefab)
-            DropCurrentWeapon();
-
-        // Disable its Trigger object
-        weapon.triggerArea.SetActive(false);
-
-        // Gravity can't affect it in hand
-        weapon.gameObject.GetComponent<Rigidbody>().isKinematic = true;
-
-        // Disable collision
-        weapon.gameObject.GetComponent<BoxCollider>().enabled = false;
-
-        // Setting new location
-        weapon.gameObject.transform.SetParent(handObject.transform);
-        weapon.gameObject.transform.localPosition = weapon.handOffset;
-        weapon.gameObject.transform.localRotation = Quaternion.Euler(
-            weapon.handRotation.x,
-            weapon.handRotation.y,
-            weapon.handRotation.z
-        );
-        
-        weapon1 = weapon;
-
-        UpdateAmmoUI();
+        activeWeapon = inventory.GetActiveWeapon();
     }
-
-    public void DropCurrentWeapon()
-    {
-        if (weapon1 == fistsPrefab)
-            return;
-        isReloading = false;
-        audioSource.Stop();
-        Weapon dropped = weapon1;
-        weapon1 = fistsPrefab;
-
-        UpdateAmmoUI();
-        
-        dropped.gameObject.transform.SetParent(GameManager.instance.map.transform);
-        dropped.gameObject.transform.position = transform.position + dropOffset;
-        dropped.gameObject.transform.rotation = Random.rotation;
-        Rigidbody _droppedRb = dropped.gameObject.GetComponent<Rigidbody>();
-
-        // Enable collision
-        dropped.gameObject.GetComponent<BoxCollider>().enabled = true;
-
-        // Gravity now can interact with weapon
-        _droppedRb.isKinematic = false;
-
-        // Enable trigger area
-        dropped.triggerArea.SetActive(true);
-        
-        _droppedRb.AddForce(transform.forward * dropStrength, ForceMode.Impulse);
-
-    }*/
 
     public void UpdateAmmoUI()
     {
-        Weapon activeWeapon = inventory.GetActiveWeapon();
         if (activeWeapon.type == ItemType.Gun)
         {
             Gun gun = (Gun)activeWeapon;
-            ammoBar.ChangeAmmo(gun.ammoInMag, currentAmmo[(int)gun.ammoType]);
+            ammoBar.ChangeAmmo(gun.ammoInMag, inventory.currentAmmo[(int)gun.ammoType]);
         }
         else
         {

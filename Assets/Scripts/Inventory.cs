@@ -12,21 +12,34 @@ public class Inventory : MonoBehaviour
     public int currentCapacity = 0;
     public int maxCapacity = 0;
 
+    [Header("Ammo settings")]
+    public static int ammoTypesCount = System.Enum.GetNames(typeof(AmmoType)).Length;
+    public int[] currentAmmo = new int[ammoTypesCount];
+    public int[] maxAmmo = new int[ammoTypesCount];
+    public AudioClip ammoPickupSound;
+
     [Header("References")]
     public InventoryUI inventoryUI;
     public InventoryUI pickupUI;
     public PickUpController pickUpController;
+    public Weapon fists;
 
 
-
+    public delegate void onWeaponChangeDelegate();
+    public delegate void onAmmoChangeDelegate();
+    public onWeaponChangeDelegate onWeaponChange;
+    public onAmmoChangeDelegate onAmmoChange;
     private const int MAX_WEAPONS = 2;
     private Weapon[] weapons = new Weapon[MAX_WEAPONS];
     private List<Item> items = new List<Item>();
     private InputMaster inputMaster;
+    private PlayerController playerController;
 
 
     private void Start()
     {
+        playerController = gameObject.GetComponent<PlayerController>();
+
         inputMaster = GameManager.instance.inputMaster;
 
         inputMaster.Player.Equipment.performed += (_) => inventoryUI.ToggleInventoryGUI();
@@ -44,6 +57,12 @@ public class Inventory : MonoBehaviour
 
         inventoryUI.ChangeCurrentCapacity(currentCapacity);
         inventoryUI.ChangeMaxCapacity(maxCapacity);
+
+        for (int i = 0; i < MAX_WEAPONS; i++)
+        {
+            weapons[i] = fists;
+        }
+        onWeaponChange();
     }
 
     public Weapon GetActiveWeapon()
@@ -146,5 +165,25 @@ public class Inventory : MonoBehaviour
 
         item.gameObject.SetActive(true);
         rb.AddForce(transform.forward * dropStrength, ForceMode.Impulse);
+    }
+
+    public void TakeAmmo(AmmoBox ammo)
+    {
+        int type = (int)ammo.ammoType;
+        if (currentAmmo[type] >= maxAmmo[type])
+            return;
+        int cap = ammo.ammoCount + currentAmmo[type];
+        if (cap <= maxAmmo[type])
+        {
+            currentAmmo[type] = cap;
+            Destroy(ammo.gameObject);
+        }
+        else
+        {
+            currentAmmo[type] = maxAmmo[type];
+            ammo.ammoCount = cap - maxAmmo[type];
+        }
+        playerController.audioSource.PlayOneShot(ammoPickupSound);
+        onAmmoChange();
     }
 }

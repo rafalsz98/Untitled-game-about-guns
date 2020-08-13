@@ -40,21 +40,21 @@ public class Gun : Weapon
 
         if (ammoInMag <= 0)
         {
-            StartCoroutine(ReloadUtil(controller));
+            Reload(controller);
             return;
         }
 
         nextTimeToFire = Time.time + rateOfFire;
 
         ammoInMag--;
-        controller.UpdateAmmoUI();
+        controller.inventory.onAmmoChange();
         StartCoroutine(ShotLight());
         audioSource.PlayOneShot(shootingSound);
         muzzleFlash.Play();
 
         if (ammoInMag <= 0)
         {
-            StartCoroutine(ReloadUtil(controller));
+            Reload(controller);
             return;
         }
 
@@ -78,7 +78,7 @@ public class Gun : Weapon
 
     public override void Reload(PlayerController controller)
     {
-        StartCoroutine(ReloadUtil(controller));
+        StartCoroutine(ReloadUtil(controller.inventory));
     }
 
     IEnumerator ShotLight()
@@ -88,9 +88,9 @@ public class Gun : Weapon
         shotLight.enabled = false;
     }
 
-    IEnumerator ReloadUtil(PlayerController controller)
+    IEnumerator ReloadUtil(Inventory inventory)
     {
-        if (controller.currentAmmo[(int)ammoType] <= 0)
+        if (inventory.currentAmmo[(int)ammoType] <= 0)
         {
             Debug.Log("No ammo");
         }
@@ -104,18 +104,18 @@ public class Gun : Weapon
             if (isReloading)
             {
                 int needed = clipSize - ammoInMag;
-                if (needed > controller.currentAmmo[(int)ammoType])
+                if (needed > inventory.currentAmmo[(int)ammoType])
                 {
-                    ammoInMag = controller.currentAmmo[(int)ammoType];
-                    controller.currentAmmo[(int)ammoType] = 0;
+                    ammoInMag = inventory.currentAmmo[(int)ammoType];
+                    inventory.currentAmmo[(int)ammoType] = 0;
                 }
                 else
                 {
                     ammoInMag = clipSize;
-                    controller.currentAmmo[(int)ammoType] -= needed;
+                    inventory.currentAmmo[(int)ammoType] -= needed;
                 }
                 isReloading = false;
-                controller.UpdateAmmoUI();
+                inventory.onAmmoChange();
             }
         }
     }

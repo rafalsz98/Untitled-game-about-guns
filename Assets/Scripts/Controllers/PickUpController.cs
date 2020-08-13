@@ -5,8 +5,8 @@ using UnityEngine;
 public class PickUpController : MonoBehaviour
 {
     public PlayerController playerController;
-    public AudioClip ammoPickupSound;
     public InventoryUI pickupUI;
+    public Inventory inventory;
 
 
     private bool isListenerActive = false;
@@ -22,24 +22,7 @@ public class PickUpController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Ammo"))
         {
-            AmmoBox ammoBox = other.gameObject.GetComponent<AmmoBox>();
-            int maxAmmo = playerController.maxAmmo[(int)ammoBox.ammoType];
-            if (playerController.currentAmmo[(int)ammoBox.ammoType] >= maxAmmo)
-                return;
-            playerController.audioSource.PlayOneShot(ammoPickupSound);
-
-            playerController.currentAmmo[(int)ammoBox.ammoType] += ammoBox.ammoCount;
-
-            if (playerController.currentAmmo[(int)ammoBox.ammoType] > maxAmmo)
-            {
-                ammoBox.ammoCount = playerController.currentAmmo[(int)ammoBox.ammoType] - maxAmmo;
-                playerController.currentAmmo[(int)ammoBox.ammoType] = maxAmmo;
-            }
-            else
-            {
-                Destroy(other.gameObject);
-            }
-            playerController.UpdateAmmoUI();
+            inventory.TakeAmmo(other.GetComponent<AmmoBox>());
         }
         else
         {
