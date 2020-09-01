@@ -8,6 +8,7 @@ public class InventoryUI : MonoBehaviour
 {
     public GameObject InventoryPanel;
     public GameObject ItemsGroupPanel;
+    public GameObject AmmoGroupPanel;
     public Inventory inventory;
     public TextMeshProUGUI currentCapacity;
     public TextMeshProUGUI maximumCapacity;
@@ -28,6 +29,7 @@ public class InventoryUI : MonoBehaviour
     //private Dictionary<Item, ItemUI> items = new Dictionary<Item, ItemUI>();
 
     private List<ItemStruct> items = new List<ItemStruct>();
+    private List<ItemUI> ammoUI = new List<ItemUI>();
 
     private class ItemStruct
     {
@@ -43,6 +45,30 @@ public class InventoryUI : MonoBehaviour
     private void Start()
     {
         inputMaster = GameManager.instance.inputMaster;
+        if (!isPickup)
+        {
+            inventory.onAmmoChange += UpdateAmmoUI;
+            Debug.Log("a");
+            for (int i = 0; i < Inventory.ammoTypesCount; i++)
+            {
+                Debug.Log("test");
+                ItemUI ammoItem = ItemUI.CreateItemUIElement(
+                        System.Enum.GetNames(typeof(AmmoType))[i],
+                        inventory.ammoSprites[i],
+                        inventory.currentAmmo[i],
+                        AmmoGroupPanel.transform
+                    );
+                ammoUI.Add(ammoItem);
+            }
+        }
+    }
+
+    public void UpdateAmmoUI()
+    {
+        for (int i = 0; i < Inventory.ammoTypesCount; i++)
+        {
+            ammoUI[i].ChangeItemQuantity(inventory.currentAmmo[i].ToString());
+        }
     }
 
     public void ChangeCurrentCapacity(int cap)
@@ -88,7 +114,7 @@ public class InventoryUI : MonoBehaviour
 
     public void AddItemToInventory(Item item)
     {
-        ItemUI itemUI = ItemUI.CreateItemUIElement(item, ItemsGroupPanel.transform);
+        ItemUI itemUI = ItemUI.CreateItemUIElement(item.name, item.image, item.quantity, ItemsGroupPanel.transform);
         itemUI.GetComponent<Button>().onClick.AddListener(() => SelectItem(item));
         items.Add(new ItemStruct(item, itemUI));
     }
@@ -177,4 +203,6 @@ public class InventoryUI : MonoBehaviour
         else
             stats.text = "";
     }
+
+
 }

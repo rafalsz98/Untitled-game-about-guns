@@ -4,9 +4,6 @@ using TMPro;
 
 public class ItemUI : MonoBehaviour
 {
-    public int ID
-    { get; set; }
-
     [SerializeField]
     private Image selection = null;
     [SerializeField]
@@ -32,14 +29,13 @@ public class ItemUI : MonoBehaviour
         quantity.text = q;
     }
 
-    public static ItemUI CreateItemUIElement(Item item, Transform parent)
+    public static ItemUI CreateItemUIElement(string itemName, Sprite itemImage, int itemQuantity, Transform parent)
     {
         GameObject newItem = Instantiate(GameManager.instance.itemUIPrefab, parent);
         ItemUI itemUI = newItem.GetComponent<ItemUI>();
-        itemUI.ChangeItemImage(item.image);
-        itemUI.ChangeItemName(item.itemName);
-        itemUI.ChangeItemQuantity(item.quantity.ToString());
-        itemUI.ID = item.ID;
+        itemUI.ChangeItemImage(itemImage);
+        itemUI.ChangeItemName(itemName);
+        itemUI.ChangeItemQuantity(itemQuantity.ToString());
         return itemUI;
     }
 

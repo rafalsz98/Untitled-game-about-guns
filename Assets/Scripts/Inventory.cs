@@ -16,6 +16,7 @@ public class Inventory : MonoBehaviour
     public static int ammoTypesCount = System.Enum.GetNames(typeof(AmmoType)).Length;
     public int[] currentAmmo = new int[ammoTypesCount];
     public int[] maxAmmo = new int[ammoTypesCount];
+    public Sprite[] ammoSprites = new Sprite[ammoTypesCount];
     public AudioClip ammoPickupSound;
 
     [Header("References")]
