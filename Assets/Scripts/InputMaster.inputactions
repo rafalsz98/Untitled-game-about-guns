@@ -572,6 +572,175 @@
                     "isPartOfComposite": true
                 }
             ]
+        },
+        {
+            "name": "UseWeaponGUI",
+            "id": "e20a7a36-976f-4881-ac3d-63ba8124223e",
+            "actions": [
+                {
+                    "name": "Exit",
+                    "type": "Button",
+                    "id": "780fa8c8-ac4a-4b1b-80e9-8e6dee4f8e53",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "5ea8e708-f7da-4a8d-b99c-f18435d30a08",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
+                    "name": "Confirm",
+                    "type": "Button",
+                    "id": "00f7181e-586b-4ff4-9dd8-531ac6bd9fa1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
+                    "name": "ConfirmWeapon1",
+                    "type": "Button",
+                    "id": "7c12946d-f9a6-44e1-9707-6b6daf5ad8e9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
+                    "name": "ConfirmWeapon2",
+                    "type": "Button",
+                    "id": "31fe1f6b-422f-4380-96fb-4304a77a5427",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "5b439caf-95da-4029-9832-c915a81fcb66",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keybord and mouse",
+                    "action": "Exit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Arrows",
+                    "id": "d3cb1a4e-1bc6-43ea-97e0-6a66143af51d",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "96a6e5ae-1cf8-4e38-9efb-962475b31c8d",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keybord and mouse",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "a9d7afb0-f80b-440d-b1d0-7c3b536e78a0",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keybord and mouse",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "AD",
+                    "id": "53467acc-0d51-4c20-9cf8-3bd9d9dd63b5",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "6a6f42ba-1911-45be-9e31-276a71857700",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keybord and mouse",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "95158236-6ca5-4b68-9fec-e4739f12b22f",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keybord and mouse",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "63181e51-7295-44e9-adb3-b1057f14b74c",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keybord and mouse",
+                    "action": "Confirm",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b4009188-27a6-4a98-84f9-1e2c43431941",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keybord and mouse",
+                    "action": "Confirm",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bfdc68f9-49d0-418a-aeaf-e603cf57430b",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keybord and mouse",
+                    "action": "ConfirmWeapon1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "475bfd46-c13e-4b9b-9d84-e0708f2ce789",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keybord and mouse",
+                    "action": "ConfirmWeapon2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

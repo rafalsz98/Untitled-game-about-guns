@@ -48,10 +48,8 @@ public class InventoryUI : MonoBehaviour
         if (!isPickup)
         {
             inventory.onAmmoChange += UpdateAmmoUI;
-            Debug.Log("a");
             for (int i = 0; i < Inventory.ammoTypesCount; i++)
             {
-                Debug.Log("test");
                 ItemUI ammoItem = ItemUI.CreateItemUIElement(
                         System.Enum.GetNames(typeof(AmmoType))[i],
                         inventory.ammoSprites[i],

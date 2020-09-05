@@ -22,6 +22,7 @@ public class Inventory : MonoBehaviour
     [Header("References")]
     public InventoryUI inventoryUI;
     public InventoryUI pickupUI;
+    public UseWeaponUI useWeaponUI;
     public PickUpController pickUpController;
     public Weapon fists;
 
@@ -47,6 +48,7 @@ public class Inventory : MonoBehaviour
 
         inputMaster.EquipmentGUI.Drop.performed += (_) => DropItem();
         inputMaster.EquipmentGUI.Exit.performed += (_) => inventoryUI.ToggleInventoryGUI();
+        inputMaster.EquipmentGUI.Use.performed += (_) => UseItem();
         inputMaster.EquipmentGUI.Navigate.performed += 
             (InputAction.CallbackContext ctx) => NavigateGUI((int)ctx.ReadValue<float>(), inventoryUI);
         
@@ -55,6 +57,8 @@ public class Inventory : MonoBehaviour
         inputMaster.PickupGUI.TakeAll.performed += (_) => TakeAllItems();
         inputMaster.PickupGUI.Navigate.performed +=
             (InputAction.CallbackContext ctx) => NavigateGUI((int)ctx.ReadValue<float>(), pickupUI);
+
+        inputMaster.UseWeaponGUI.Confirm.performed += (_) => ReplaceWeapon(useWeaponUI.currentlySelected);
 
         inventoryUI.ChangeCurrentCapacity(currentCapacity);
         inventoryUI.ChangeMaxCapacity(maxCapacity);
@@ -154,7 +158,13 @@ public class Inventory : MonoBehaviour
             // Now it will be able to move
             rb.isKinematic = false;
 
-            // todo: Check if weapon is equipped, if yes then set fists as weapon
+            // If it is main weapon
+            if (weapons[0] == (Weapon)item)
+            {
+                weapons[0] = fists;
+                onWeaponChange();
+                onAmmoChange();
+            }
         }
         item.gameObject.transform.position = transform.position + dropOffset;
         item.gameObject.transform.rotation = Random.rotation;
@@ -186,5 +196,48 @@ public class Inventory : MonoBehaviour
         }
         playerController.audioSource.PlayOneShot(ammoPickupSound);
         onAmmoChange();
+    }
+
+    private void UseItem()
+    {
+        Item item = inventoryUI.currentlySelectedItem;
+        if (item == null)
+            return;
+        if (item.type == ItemType.Gun || item.type == ItemType.Melee)
+        {
+            useWeaponUI.ShowGUI(weapons[0], weapons[1]);
+        }
+    }
+
+    private void ReplaceWeapon(int id)
+    {
+        Item item = inventoryUI.currentlySelectedItem;
+        if (id < 0 || id >= MAX_WEAPONS ||
+            item == null ||
+            item.type != ItemType.Gun && item.type != ItemType.Melee
+            )
+        {
+            useWeaponUI.HideGUI();
+            return;
+        }
+
+        // Prevent equiping same weapon twice
+        if ((Weapon)item == weapons[MAX_WEAPONS - 1 - id])
+        {
+            weapons[MAX_WEAPONS - 1 - id] = weapons[id];
+            if (MAX_WEAPONS - 1 - id == 0)
+            {
+                onWeaponChange();
+                onAmmoChange();
+            }
+        }
+
+        weapons[id] = (Weapon)item;
+        useWeaponUI.HideGUI();
+        if (id == 0)
+        {
+            onWeaponChange();
+            onAmmoChange();
+        }
     }
 }

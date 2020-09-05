@@ -585,6 +585,175 @@ public class @InputMaster : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""UseWeaponGUI"",
+            ""id"": ""e20a7a36-976f-4881-ac3d-63ba8124223e"",
+            ""actions"": [
+                {
+                    ""name"": ""Exit"",
+                    ""type"": ""Button"",
+                    ""id"": ""780fa8c8-ac4a-4b1b-80e9-8e6dee4f8e53"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""5ea8e708-f7da-4a8d-b99c-f18435d30a08"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Confirm"",
+                    ""type"": ""Button"",
+                    ""id"": ""00f7181e-586b-4ff4-9dd8-531ac6bd9fa1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""ConfirmWeapon1"",
+                    ""type"": ""Button"",
+                    ""id"": ""7c12946d-f9a6-44e1-9707-6b6daf5ad8e9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""ConfirmWeapon2"",
+                    ""type"": ""Button"",
+                    ""id"": ""31fe1f6b-422f-4380-96fb-4304a77a5427"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""5b439caf-95da-4029-9832-c915a81fcb66"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Arrows"",
+                    ""id"": ""d3cb1a4e-1bc6-43ea-97e0-6a66143af51d"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""96a6e5ae-1cf8-4e38-9efb-962475b31c8d"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""a9d7afb0-f80b-440d-b1d0-7c3b536e78a0"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""AD"",
+                    ""id"": ""53467acc-0d51-4c20-9cf8-3bd9d9dd63b5"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""6a6f42ba-1911-45be-9e31-276a71857700"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""95158236-6ca5-4b68-9fec-e4739f12b22f"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""63181e51-7295-44e9-adb3-b1057f14b74c"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Confirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b4009188-27a6-4a98-84f9-1e2c43431941"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""Confirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bfdc68f9-49d0-418a-aeaf-e603cf57430b"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""ConfirmWeapon1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""475bfd46-c13e-4b9b-9d84-e0708f2ce789"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keybord and mouse"",
+                    ""action"": ""ConfirmWeapon2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -631,6 +800,13 @@ public class @InputMaster : IInputActionCollection, IDisposable
         m_PickupGUI_TakeAll = m_PickupGUI.FindAction("TakeAll", throwIfNotFound: true);
         m_PickupGUI_Take = m_PickupGUI.FindAction("Take", throwIfNotFound: true);
         m_PickupGUI_Navigate = m_PickupGUI.FindAction("Navigate", throwIfNotFound: true);
+        // UseWeaponGUI
+        m_UseWeaponGUI = asset.FindActionMap("UseWeaponGUI", throwIfNotFound: true);
+        m_UseWeaponGUI_Exit = m_UseWeaponGUI.FindAction("Exit", throwIfNotFound: true);
+        m_UseWeaponGUI_Move = m_UseWeaponGUI.FindAction("Move", throwIfNotFound: true);
+        m_UseWeaponGUI_Confirm = m_UseWeaponGUI.FindAction("Confirm", throwIfNotFound: true);
+        m_UseWeaponGUI_ConfirmWeapon1 = m_UseWeaponGUI.FindAction("ConfirmWeapon1", throwIfNotFound: true);
+        m_UseWeaponGUI_ConfirmWeapon2 = m_UseWeaponGUI.FindAction("ConfirmWeapon2", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -903,6 +1079,71 @@ public class @InputMaster : IInputActionCollection, IDisposable
         }
     }
     public PickupGUIActions @PickupGUI => new PickupGUIActions(this);
+
+    // UseWeaponGUI
+    private readonly InputActionMap m_UseWeaponGUI;
+    private IUseWeaponGUIActions m_UseWeaponGUIActionsCallbackInterface;
+    private readonly InputAction m_UseWeaponGUI_Exit;
+    private readonly InputAction m_UseWeaponGUI_Move;
+    private readonly InputAction m_UseWeaponGUI_Confirm;
+    private readonly InputAction m_UseWeaponGUI_ConfirmWeapon1;
+    private readonly InputAction m_UseWeaponGUI_ConfirmWeapon2;
+    public struct UseWeaponGUIActions
+    {
+        private @InputMaster m_Wrapper;
+        public UseWeaponGUIActions(@InputMaster wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Exit => m_Wrapper.m_UseWeaponGUI_Exit;
+        public InputAction @Move => m_Wrapper.m_UseWeaponGUI_Move;
+        public InputAction @Confirm => m_Wrapper.m_UseWeaponGUI_Confirm;
+        public InputAction @ConfirmWeapon1 => m_Wrapper.m_UseWeaponGUI_ConfirmWeapon1;
+        public InputAction @ConfirmWeapon2 => m_Wrapper.m_UseWeaponGUI_ConfirmWeapon2;
+        public InputActionMap Get() { return m_Wrapper.m_UseWeaponGUI; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UseWeaponGUIActions set) { return set.Get(); }
+        public void SetCallbacks(IUseWeaponGUIActions instance)
+        {
+            if (m_Wrapper.m_UseWeaponGUIActionsCallbackInterface != null)
+            {
+                @Exit.started -= m_Wrapper.m_UseWeaponGUIActionsCallbackInterface.OnExit;
+                @Exit.performed -= m_Wrapper.m_UseWeaponGUIActionsCallbackInterface.OnExit;
+                @Exit.canceled -= m_Wrapper.m_UseWeaponGUIActionsCallbackInterface.OnExit;
+                @Move.started -= m_Wrapper.m_UseWeaponGUIActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_UseWeaponGUIActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_UseWeaponGUIActionsCallbackInterface.OnMove;
+                @Confirm.started -= m_Wrapper.m_UseWeaponGUIActionsCallbackInterface.OnConfirm;
+                @Confirm.performed -= m_Wrapper.m_UseWeaponGUIActionsCallbackInterface.OnConfirm;
+                @Confirm.canceled -= m_Wrapper.m_UseWeaponGUIActionsCallbackInterface.OnConfirm;
+                @ConfirmWeapon1.started -= m_Wrapper.m_UseWeaponGUIActionsCallbackInterface.OnConfirmWeapon1;
+                @ConfirmWeapon1.performed -= m_Wrapper.m_UseWeaponGUIActionsCallbackInterface.OnConfirmWeapon1;
+                @ConfirmWeapon1.canceled -= m_Wrapper.m_UseWeaponGUIActionsCallbackInterface.OnConfirmWeapon1;
+                @ConfirmWeapon2.started -= m_Wrapper.m_UseWeaponGUIActionsCallbackInterface.OnConfirmWeapon2;
+                @ConfirmWeapon2.performed -= m_Wrapper.m_UseWeaponGUIActionsCallbackInterface.OnConfirmWeapon2;
+                @ConfirmWeapon2.canceled -= m_Wrapper.m_UseWeaponGUIActionsCallbackInterface.OnConfirmWeapon2;
+            }
+            m_Wrapper.m_UseWeaponGUIActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Exit.started += instance.OnExit;
+                @Exit.performed += instance.OnExit;
+                @Exit.canceled += instance.OnExit;
+                @Move.started += instance.OnMove;
+                @Move.performed += instance.OnMove;
+                @Move.canceled += instance.OnMove;
+                @Confirm.started += instance.OnConfirm;
+                @Confirm.performed += instance.OnConfirm;
+                @Confirm.canceled += instance.OnConfirm;
+                @ConfirmWeapon1.started += instance.OnConfirmWeapon1;
+                @ConfirmWeapon1.performed += instance.OnConfirmWeapon1;
+                @ConfirmWeapon1.canceled += instance.OnConfirmWeapon1;
+                @ConfirmWeapon2.started += instance.OnConfirmWeapon2;
+                @ConfirmWeapon2.performed += instance.OnConfirmWeapon2;
+                @ConfirmWeapon2.canceled += instance.OnConfirmWeapon2;
+            }
+        }
+    }
+    public UseWeaponGUIActions @UseWeaponGUI => new UseWeaponGUIActions(this);
     private int m_KeybordandmouseSchemeIndex = -1;
     public InputControlScheme KeybordandmouseScheme
     {
@@ -939,5 +1180,13 @@ public class @InputMaster : IInputActionCollection, IDisposable
         void OnTakeAll(InputAction.CallbackContext context);
         void OnTake(InputAction.CallbackContext context);
         void OnNavigate(InputAction.CallbackContext context);
+    }
+    public interface IUseWeaponGUIActions
+    {
+        void OnExit(InputAction.CallbackContext context);
+        void OnMove(InputAction.CallbackContext context);
+        void OnConfirm(InputAction.CallbackContext context);
+        void OnConfirmWeapon1(InputAction.CallbackContext context);
+        void OnConfirmWeapon2(InputAction.CallbackContext context);
     }
 }

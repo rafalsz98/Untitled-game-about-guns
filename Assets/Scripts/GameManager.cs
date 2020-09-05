@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
         inputMaster.Player.Enable();
         inputMaster.EquipmentGUI.Disable();
         inputMaster.PickupGUI.Disable();
+        inputMaster.UseWeaponGUI.Disable();
     }
 
     private void OnDisable()
