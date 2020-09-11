@@ -25,6 +25,7 @@ public class Inventory : MonoBehaviour
     public UseWeaponUI useWeaponUI;
     public PickUpController pickUpController;
     public Weapon fists;
+    public Transform handTransform;
 
 
     public delegate void onWeaponChangeDelegate();
@@ -41,6 +42,7 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         playerController = gameObject.GetComponent<PlayerController>();
+        onWeaponChange += EquipWeapon;
 
         inputMaster = GameManager.instance.inputMaster;
 
@@ -59,6 +61,9 @@ public class Inventory : MonoBehaviour
             (InputAction.CallbackContext ctx) => NavigateGUI((int)ctx.ReadValue<float>(), pickupUI);
 
         inputMaster.UseWeaponGUI.Confirm.performed += (_) => ReplaceWeapon(useWeaponUI.currentlySelected);
+        inputMaster.UseWeaponGUI.ConfirmWeapon1.performed += (_) => ReplaceWeapon(0);
+        inputMaster.UseWeaponGUI.ConfirmWeapon2.performed += (_) => ReplaceWeapon(1);
+
 
         inventoryUI.ChangeCurrentCapacity(currentCapacity);
         inventoryUI.ChangeMaxCapacity(maxCapacity);
@@ -165,6 +170,9 @@ public class Inventory : MonoBehaviour
                 onWeaponChange();
                 onAmmoChange();
             }
+
+            if (weapons[1] == (Weapon)item)
+                weapons[1] = fists;
         }
         item.gameObject.transform.position = transform.position + dropOffset;
         item.gameObject.transform.rotation = Random.rotation;
@@ -227,6 +235,7 @@ public class Inventory : MonoBehaviour
             weapons[MAX_WEAPONS - 1 - id] = weapons[id];
             if (MAX_WEAPONS - 1 - id == 0)
             {
+                UnequipWeapon((Weapon)item);
                 onWeaponChange();
                 onAmmoChange();
             }
@@ -239,5 +248,27 @@ public class Inventory : MonoBehaviour
             onWeaponChange();
             onAmmoChange();
         }
+    }
+
+    private void EquipWeapon()
+    {
+        if (weapons[0] == fists)
+            return;
+        weapons[0].gameObject.transform.SetParent(handTransform);
+        weapons[0].gameObject.GetComponent<BoxCollider>().enabled = false;
+        weapons[0].triggerArea.SetActive(false);
+        weapons[0].gameObject.GetComponent<Rigidbody>().isKinematic = true;
+        weapons[0].gameObject.transform.localPosition = weapons[0].handOffset;
+        weapons[0].gameObject.transform.localRotation = Quaternion.Euler(
+            weapons[0].handRotation.x,
+            weapons[0].handRotation.y,
+            weapons[0].handRotation.z
+        );
+        weapons[0].gameObject.SetActive(true);
+    }
+
+    private void UnequipWeapon(Weapon weapon)
+    {
+        weapon.gameObject.SetActive(false);
     }
 }
