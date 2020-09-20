@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
         #endregion
 
         #region Animation settings
-        if (input.sqrMagnitude > epsilon)
+/*        if (input.sqrMagnitude > epsilon)
         {
             animator.SetFloat("ActionType", 1, animationSmoothTime, Time.deltaTime);
             animator.SetFloat("MovX", input.x, animationSmoothTime, Time.deltaTime);
@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviour
             animator.SetFloat("ActionType", 0, animationSmoothTime, Time.deltaTime);
             animator.SetFloat("MovX", 0);
             animator.SetFloat("MovY", 0);
-        }
+        }*/
         #endregion
 
         #region Set of player model rotation
