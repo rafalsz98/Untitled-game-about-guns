@@ -202,5 +202,15 @@ public class InventoryUI : MonoBehaviour
             stats.text = "";
     }
 
-
+    // Toggle image informing if item is currently equipped
+    // If state == 0, then hide image
+    // If state == 1, then show image
+    public void ToggleEquip(Item item, bool state)
+    {
+        int id = findItemStruct(item);
+        if (id == -1)
+            return;
+        ItemStruct its = items[id];
+        its.itemUI.ToggleEquip(state);
+    }
 }

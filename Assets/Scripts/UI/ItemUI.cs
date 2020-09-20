@@ -9,6 +9,8 @@ public class ItemUI : MonoBehaviour
     [SerializeField]
     private Image itemImage = null;
     [SerializeField]
+    private Image itemEquipped = null;
+    [SerializeField]
     private TextMeshProUGUI itemName = null;
     [SerializeField]
     private TextMeshProUGUI quantity = null;
@@ -55,5 +57,13 @@ public class ItemUI : MonoBehaviour
             itemName.color = c;
             quantity.color = c;
         }
+    }
+
+    // Toggle image informing if item is currently equipped
+    // If state == 0, then hide image
+    // If state == 1, then show image
+    public void ToggleEquip(bool state)
+    {
+        itemEquipped.enabled = state;
     }
 }

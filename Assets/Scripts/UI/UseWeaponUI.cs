@@ -8,6 +8,7 @@ public class UseWeaponUI : MonoBehaviour
 {
     public Image[] WeaponTiles = new Image[weaponsCount];
     public TextMeshProUGUI[] WeaponNames = new TextMeshProUGUI[weaponsCount];
+    public TextMeshProUGUI[] Numbers = new TextMeshProUGUI[weaponsCount];
     public Image Weapon1Image;
     public Image Weapon2Image;
     [HideInInspector]

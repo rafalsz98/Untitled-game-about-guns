@@ -240,8 +240,11 @@ public class Inventory : MonoBehaviour
                 onAmmoChange();
             }
         }
-
+        else if (weapons[id] != fists)
+            inventoryUI.ToggleEquip(weapons[id] as Item, false);
         weapons[id] = (Weapon)item;
+        inventoryUI.ToggleEquip(item, true);
+
         useWeaponUI.HideGUI();
         if (id == 0)
         {
